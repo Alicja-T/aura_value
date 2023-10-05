@@ -1,7 +1,7 @@
 // Copyright Philosophical Games
 
 
-#include "ValueCharacterBase.h"
+#include "Character/ValueCharacterBase.h"
 
 AValueCharacterBase::AValueCharacterBase()
 {
