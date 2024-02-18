@@ -7,6 +7,7 @@
 #include "ValueController.generated.h"
 
 struct FInputActionValue;
+class IEnemyInterface;
 /**
  * 
  */
@@ -16,6 +17,7 @@ class AURA_API AValueController : public APlayerController
 	GENERATED_BODY()
  public:
   AValueController();
+  virtual void PlayerTick(float DeltaTime) override;
  protected:
   virtual void BeginPlay() override;
   virtual void SetupInputComponent() override;
@@ -27,4 +29,8 @@ class AURA_API AValueController : public APlayerController
   TObjectPtr<class UInputAction> MoveAction;
 
   void Move(const FInputActionValue& InputActionValue);
+  void CursorTrace();
+
+  IEnemyInterface* LastActor;
+  IEnemyInterface* CurrentActor;
 };
