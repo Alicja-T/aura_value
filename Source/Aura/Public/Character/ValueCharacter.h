@@ -13,5 +13,9 @@ UCLASS()
 class AURA_API AValueCharacter : public AValueCharacterBase
 {
 	GENERATED_BODY()
-	
+ public:
+  AValueCharacter();
+
+ private:
+ 	
 };
