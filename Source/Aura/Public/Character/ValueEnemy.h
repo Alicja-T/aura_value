@@ -16,6 +16,7 @@ class AURA_API AValueEnemy : public AValueCharacterBase, public IEnemyInterface
 {
 	GENERATED_BODY()
  public:
+  AValueEnemy();
   virtual void HighlightActor() override;
   virtual void UnHighlightActor() override;
 

@@ -2,6 +2,8 @@
 
 
 #include "Character/ValueCharacterBase.h"
+#include "AbilitySystem/ValueAbilitySystemComponent.h"
+#include "AbilitySystem/ValueAttributeSet.h"
 
 AValueCharacterBase::AValueCharacterBase()
 {
@@ -9,6 +11,11 @@ AValueCharacterBase::AValueCharacterBase()
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+UAbilitySystemComponent* AValueCharacterBase::GetAbilitySystemComponent()
+    const {
+        return AbilitySystemComponent;
 }
 
 // Called when the game starts or when spawned
