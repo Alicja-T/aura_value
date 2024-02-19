@@ -10,7 +10,13 @@ AValueEnemy::AValueEnemy() {
   AbilitySystemComponent =
       CreateDefaultSubobject<UValueAbilitySystemComponent>(FName("AbilitySystemComponent"));
   AbilitySystemComponent->SetIsReplicated(true);
+  AbilitySystemComponent->SetReplicationMode(
+      EGameplayEffectReplicationMode::Minimal);
   AttributeSet = CreateDefaultSubobject<UValueAttributeSet>(FName("AttributeSet"));
+}
+
+void AValueEnemy::BeginPlay() {
+  AbilitySystemComponent->InitAbilityActorInfo(this, this);
 }
 
 void AValueEnemy::HighlightActor() { 

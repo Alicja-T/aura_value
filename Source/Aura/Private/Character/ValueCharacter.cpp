@@ -3,6 +3,9 @@
 
 #include "Character/ValueCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Pawn.h"
+#include "Player/ValuePlayerState.h"
+#include "AbilitySystem/ValueAbilitySystemComponent.h"
 
 AValueCharacter::AValueCharacter() { 
   GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -13,4 +16,24 @@ AValueCharacter::AValueCharacter() {
   bUseControllerRotationPitch = false;
   bUseControllerRotationRoll = false;
   bUseControllerRotationYaw = false;
+}
+
+void AValueCharacter::PossessedBy(AController* ValueController) {
+  Super::PossessedBy(ValueController);
+  InitAbilitySystem();
+}
+
+
+
+void AValueCharacter::OnRep_PlayerState() { 
+  Super::OnRep_PlayerState(); 
+  InitAbilitySystem();
+}
+
+void AValueCharacter::InitAbilitySystem() {
+  AValuePlayerState* ValuePlayerState = GetPlayerState<AValuePlayerState>();
+  check(ValuePlayerState);
+  AbilitySystemComponent = ValuePlayerState->GetAbilitySystemComponent();
+  AbilitySystemComponent->InitAbilityActorInfo(ValuePlayerState, this);
+  AttributeSet = ValuePlayerState->GetAttributeSet();
 }

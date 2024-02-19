@@ -20,4 +20,6 @@ class AURA_API AValueEnemy : public AValueCharacterBase, public IEnemyInterface
   virtual void HighlightActor() override;
   virtual void UnHighlightActor() override;
 
+ protected:
+  virtual void BeginPlay() override;
 };

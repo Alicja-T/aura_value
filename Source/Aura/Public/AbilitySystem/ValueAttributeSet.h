@@ -14,4 +14,6 @@ class AURA_API UValueAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 	
+	UPROPERTY()
+  FGameplayAttributeData Health;
 };
