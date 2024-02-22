@@ -5,6 +5,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Player/ValuePlayerState.h"
+#include "Player/ValueController.h"
+#include "UI/HUD/ValueHUD.h"
 #include "AbilitySystem/ValueAbilitySystemComponent.h"
 
 AValueCharacter::AValueCharacter() { 
@@ -36,4 +38,11 @@ void AValueCharacter::InitAbilitySystem() {
   AbilitySystemComponent = ValuePlayerState->GetAbilitySystemComponent();
   AbilitySystemComponent->InitAbilityActorInfo(ValuePlayerState, this);
   AttributeSet = ValuePlayerState->GetAttributeSet();
+  if (AValueController* ValuePlayerController =
+          Cast<AValueController>(GetController())) {
+    if (AValueHUD* ValueHUD = Cast<AValueHUD>(ValuePlayerController->GetHUD())) {
+      ValueHUD->InitOverlay(ValuePlayerController, ValuePlayerState, AbilitySystemComponent, AttributeSet);
+    }
+  
+  };
 }

@@ -20,8 +20,9 @@ void AValueController::BeginPlay() {
   check(ValueContext);
   UEnhancedInputLocalPlayerSubsystem* Subsystem =
       ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-  check(Subsystem);
-  Subsystem->AddMappingContext(ValueContext, 0);
+  if (Subsystem) {
+    Subsystem->AddMappingContext(ValueContext, 0);
+  }
   bShowMouseCursor = true;
   DefaultMouseCursor = EMouseCursor::Default;
   FInputModeGameAndUI InputModeData;
