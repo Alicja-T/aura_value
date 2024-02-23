@@ -12,3 +12,5 @@ void UValueWidgetController::SetWidgetControllerParams(
 
 
 }
+
+void UValueWidgetController::BroadcastInitialValues() {}

@@ -28,7 +28,7 @@ void AValueHUD::InitOverlay(APlayerController* PC, APlayerState* PS,
       GetOverlayWidgetController(WidgetControllerParams);
 
   OverlayWidget->SetWidgetController(WidgetController);
-
+  WidgetController->BroadcastInitialValues();
   Widget->AddToViewport();
 
 }
