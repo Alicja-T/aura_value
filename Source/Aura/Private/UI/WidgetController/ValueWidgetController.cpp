@@ -14,3 +14,7 @@ void UValueWidgetController::SetWidgetControllerParams(
 }
 
 void UValueWidgetController::BroadcastInitialValues() {}
+
+void UValueWidgetController::BindCallbacksToDependencies() {}
+
+

@@ -9,6 +9,7 @@
 
 class UAttributeSet;
 class UAbilitySystemComponent;
+struct FOnAttributeChangeData;
 
 
 USTRUCT(BlueprintType)
@@ -47,6 +48,7 @@ class AURA_API UValueWidgetController : public UObject
   UFUNCTION(BlueprintCallable)
   void SetWidgetControllerParams(const FWidgetControllerParams& Params);
   virtual void BroadcastInitialValues();
+  virtual void BindCallbacksToDependencies();
 
  protected:
   UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
@@ -57,5 +59,6 @@ class AURA_API UValueWidgetController : public UObject
   TObjectPtr<class UAbilitySystemComponent> AbilitySystemComponent;
   UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
   TObjectPtr<class UAttributeSet> AttributeSet;
+
 	
 };
