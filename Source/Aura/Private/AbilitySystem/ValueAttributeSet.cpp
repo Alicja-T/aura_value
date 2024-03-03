@@ -27,6 +27,17 @@ void UValueAttributeSet::GetLifetimeReplicatedProps(
 
 }
 
+void UValueAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute,
+                                            float& NewValue) {
+  Super::PreAttributeChange(Attribute, NewValue);
+  if (Attribute == GetHealthAttribute()) {
+    NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHealth());
+  }
+  if (Attribute == GetManaAttribute()) {
+    NewValue = FMath::Clamp(NewValue, 0.f, GetMaxMana());
+  }
+}
+
 void UValueAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const {
   GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, Health, OldHealth);
 

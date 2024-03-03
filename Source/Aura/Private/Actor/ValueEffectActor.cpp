@@ -68,7 +68,7 @@ void AValueEffectActor::OnEndOverlap(AActor* TargetActor) {
     TArray<FActiveGameplayEffectHandle> EffectsToRemove;
     for (auto EffectPair : EffectHandleMap) {
       if (TargetASC == EffectPair.Value) {
-        TargetASC->RemoveActiveGameplayEffect(EffectPair.Key);
+        TargetASC->RemoveActiveGameplayEffect(EffectPair.Key, 1);
         EffectsToRemove.Add(EffectPair.Key);
       }
     } 
