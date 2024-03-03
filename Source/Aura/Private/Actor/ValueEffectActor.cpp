@@ -24,7 +24,7 @@ void AValueEffectActor::ApplyEffectToTarget(
   check(GameplayEffect);
   FGameplayEffectContextHandle ContextHandle = TargetASC->MakeEffectContext();
   ContextHandle.AddSourceObject(this);
-  FGameplayEffectSpecHandle SpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffect, 1.f, ContextHandle);
+  FGameplayEffectSpecHandle SpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffect, ActorLevel, ContextHandle);
   FActiveGameplayEffectHandle EffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
   bool bIsInfite = SpecHandle.Data->Def.Get()->DurationPolicy ==
                    EGameplayEffectDurationType::Infinite;
