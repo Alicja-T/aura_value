@@ -22,21 +22,24 @@ AValueCharacter::AValueCharacter() {
 
 void AValueCharacter::PossessedBy(AController* ValueController) {
   Super::PossessedBy(ValueController);
-  InitAbilitySystem();
+  InitAbilityActorInfo();
 }
 
 
 
 void AValueCharacter::OnRep_PlayerState() { 
   Super::OnRep_PlayerState(); 
-  InitAbilitySystem();
+  InitAbilityActorInfo();
 }
 
-void AValueCharacter::InitAbilitySystem() {
+
+
+void AValueCharacter::InitAbilityActorInfo() {
   AValuePlayerState* ValuePlayerState = GetPlayerState<AValuePlayerState>();
   check(ValuePlayerState);
   AbilitySystemComponent = ValuePlayerState->GetAbilitySystemComponent();
   AbilitySystemComponent->InitAbilityActorInfo(ValuePlayerState, this);
+  Cast<UValueAbilitySystemComponent>(ValuePlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
   AttributeSet = ValuePlayerState->GetAttributeSet();
   if (AValueController* ValuePlayerController =
           Cast<AValueController>(GetController())) {

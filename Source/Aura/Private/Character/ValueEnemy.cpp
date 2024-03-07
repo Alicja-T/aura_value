@@ -15,8 +15,14 @@ AValueEnemy::AValueEnemy() {
   AttributeSet = CreateDefaultSubobject<UValueAttributeSet>(FName("AttributeSet"));
 }
 
-void AValueEnemy::BeginPlay() {
+void AValueEnemy::BeginPlay() { 
+  Super::BeginPlay(); 
+  InitAbilityActorInfo();
+}
+
+void AValueEnemy::InitAbilityActorInfo() {
   AbilitySystemComponent->InitAbilityActorInfo(this, this);
+  Cast<UValueAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 }
 
 void AValueEnemy::HighlightActor() { 

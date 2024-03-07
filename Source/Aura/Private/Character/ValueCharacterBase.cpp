@@ -25,5 +25,7 @@ void AValueCharacterBase::BeginPlay()
 	
 }
 
+void AValueCharacterBase::InitAbilityActorInfo() {}
+
 
 
