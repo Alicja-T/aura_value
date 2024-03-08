@@ -13,4 +13,5 @@ void UValueAbilitySystemComponent::EffectApplied(
     FActiveGameplayEffectHandle ActiveEffectHandle) {
   FGameplayTagContainer TagContainer;
   EffectSpec.GetAllAssetTags(TagContainer);
+  EffectAssetTags.Broadcast(TagContainer);
 }
