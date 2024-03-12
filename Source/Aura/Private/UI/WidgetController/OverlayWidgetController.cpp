@@ -15,25 +15,27 @@ void UOverlayWidgetController::BroadcastInitialValues() {
 
 }
 
+void UOverlayWidgetController::BindCallbacksToAttributeSet(
+    const FGameplayAttribute& Attribute,
+    FOnAttributeChangedSignature* AttributeChangeDelegate) {
+  AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Attribute)
+      .AddLambda([AttributeChangeDelegate](const FOnAttributeChangeData& Data) {
+        AttributeChangeDelegate->Broadcast(Data.NewValue);
+      });
+}
+
 void UOverlayWidgetController::BindCallbacksToDependencies() {
   UValueAttributeSet* ValueAttributeSet =
       CastChecked<UValueAttributeSet>(AttributeSet);
-  AbilitySystemComponent
-      ->GetGameplayAttributeValueChangeDelegate(
-          ValueAttributeSet->GetHealthAttribute())
-      .AddUObject(this, &UOverlayWidgetController::HealthChanged);
-  AbilitySystemComponent
-      ->GetGameplayAttributeValueChangeDelegate(
-          ValueAttributeSet->GetMaxHealthAttribute())
-      .AddUObject(this, &UOverlayWidgetController::MaxHealthChanged);
-  AbilitySystemComponent
-      ->GetGameplayAttributeValueChangeDelegate(
-          ValueAttributeSet->GetManaAttribute())
-      .AddUObject(this, &UOverlayWidgetController::ManaChanged);
-  AbilitySystemComponent
-      ->GetGameplayAttributeValueChangeDelegate(
-          ValueAttributeSet->GetMaxManaAttribute())
-      .AddUObject(this, &UOverlayWidgetController::MaxManaChanged);
+  BindCallbacksToAttributeSet(ValueAttributeSet->GetHealthAttribute(),
+                              &OnHealthChanged);
+  BindCallbacksToAttributeSet(ValueAttributeSet->GetMaxHealthAttribute(),
+                              &OnMaxHealthChanged);
+  BindCallbacksToAttributeSet(ValueAttributeSet->GetManaAttribute(),
+                              &OnManaChanged);
+  BindCallbacksToAttributeSet(ValueAttributeSet->GetMaxManaAttribute(),
+                              &OnMaxManaChanged);
+
   Cast<UValueAbilitySystemComponent>(AbilitySystemComponent)
       ->EffectAssetTags.AddLambda([this](const FGameplayTagContainer& AssetTags) {
         for (const FGameplayTag& Tag : AssetTags) {
@@ -51,22 +53,5 @@ void UOverlayWidgetController::BindCallbacksToDependencies() {
       });
 }
 
-void UOverlayWidgetController::HealthChanged(
-    const FOnAttributeChangeData& Data) const {
-  OnHealthChanged.Broadcast(Data.NewValue);
-}
 
-void UOverlayWidgetController::MaxHealthChanged(
-    const FOnAttributeChangeData& Data) const {
-  OnMaxHealthChanged.Broadcast(Data.NewValue);
-}
 
-void UOverlayWidgetController::ManaChanged(
-    const FOnAttributeChangeData& Data) const {
-  OnManaChanged.Broadcast(Data.NewValue);
-}
-
-void UOverlayWidgetController::MaxManaChanged(
-    const FOnAttributeChangeData& Data) const {
-  OnMaxManaChanged.Broadcast(Data.NewValue);
-}
