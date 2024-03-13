@@ -24,7 +24,7 @@ class AURA_API AValuePlayerState : public APlayerState, public IAbilitySystemInt
   UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
  protected:
-   UPROPERTY()
+   UPROPERTY(VisibleAnywhere)
    TObjectPtr<class UAbilitySystemComponent> AbilitySystemComponent;
    UPROPERTY()
    TObjectPtr<class UAttributeSet> AttributeSet;

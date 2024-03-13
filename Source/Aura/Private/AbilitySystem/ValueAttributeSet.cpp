@@ -18,6 +18,16 @@ UValueAttributeSet::UValueAttributeSet() {
 void UValueAttributeSet::GetLifetimeReplicatedProps(
     TArray<FLifetimeProperty>& OutLifetimeProps) const {
   Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, Strength, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, Intelligence, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, Resilience, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, Vigor, COND_None,
+                                 REPNOTIFY_Always);
+
   DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, Health, COND_None,
                                  REPNOTIFY_Always);
   DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, MaxHealth, COND_None,
@@ -111,4 +121,23 @@ void UValueAttributeSet::OnRep_MaxMana(
 }
 
 
+void UValueAttributeSet::OnRep_Strength(
+    const FGameplayAttributeData& OldStrength) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, Strength, OldStrength);
+}
+
+void UValueAttributeSet::OnRep_Intelligence(
+    const FGameplayAttributeData& OldIntelligence) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, Intelligence, OldIntelligence);
+}
+
+void UValueAttributeSet::OnRep_Resilience(
+    const FGameplayAttributeData& OldResilience) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, Resilience, OldResilience);
+}
+
+void UValueAttributeSet::OnRep_Vigor(
+    const FGameplayAttributeData& OldVigor) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, Vigor, OldVigor);
+}
 
