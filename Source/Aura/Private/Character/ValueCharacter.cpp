@@ -46,6 +46,6 @@ void AValueCharacter::InitAbilityActorInfo() {
     if (AValueHUD* ValueHUD = Cast<AValueHUD>(ValuePlayerController->GetHUD())) {
       ValueHUD->InitOverlay(ValuePlayerController, ValuePlayerState, AbilitySystemComponent, AttributeSet);
     }
-  
   };
+  InitializePrimaryAttributes();
 }
