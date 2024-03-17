@@ -30,13 +30,30 @@ void UValueAttributeSet::GetLifetimeReplicatedProps(
 
   DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, Health, COND_None,
                                  REPNOTIFY_Always);
-  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, MaxHealth, COND_None,
-                                 REPNOTIFY_Always);
+
   DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, Mana, COND_None,
+                                 REPNOTIFY_Always);
+
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, Armor, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, ArmorPenetration, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, BlockChance, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, CriticalHitChance, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, CriticalHitDamage, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, CriticalHitResistance, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, HealthRegeneration, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, ManaRegeneration,
+                                 COND_None, REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, MaxHealth, COND_None,
                                  REPNOTIFY_Always);
   DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, MaxMana, COND_None,
                                  REPNOTIFY_Always);
-
 }
 
 void UValueAttributeSet::SetEffectProperties(
@@ -139,5 +156,45 @@ void UValueAttributeSet::OnRep_Resilience(
 void UValueAttributeSet::OnRep_Vigor(
     const FGameplayAttributeData& OldVigor) const {
   GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, Vigor, OldVigor);
+}
+
+void UValueAttributeSet::OnRep_Armor(
+    const FGameplayAttributeData& OldArmor) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, Armor, OldArmor);
+}
+
+void UValueAttributeSet::OnRep_ArmorPenetration(
+    const FGameplayAttributeData& OldArmorPenetration) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, ArmorPenetration, OldArmorPenetration);
+}
+
+void UValueAttributeSet::OnRep_BlockChance(
+    const FGameplayAttributeData& OldBlockChance) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, BlockChance, OldBlockChance);
+}
+
+void UValueAttributeSet::OnRep_CriticalHitChance(
+    const FGameplayAttributeData& OldCriticalHitChance) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, CriticalHitChance, OldCriticalHitChance);
+}
+
+void UValueAttributeSet::OnRep_CriticalHitDamage(
+    const FGameplayAttributeData& OldCriticalHitDamage) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, CriticalHitDamage, OldCriticalHitDamage);
+}
+
+void UValueAttributeSet::OnRep_CriticalHitResistance(
+    const FGameplayAttributeData& OldCriticalHitResistance) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, CriticalHitResistance, OldCriticalHitResistance);
+}
+
+void UValueAttributeSet::OnRep_HealthRegeneration(
+    const FGameplayAttributeData& OldHealthRegeneration) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, HealthRegeneration, OldHealthRegeneration);
+}
+
+void UValueAttributeSet::OnRep_ManaRegeneration(
+    const FGameplayAttributeData& OldManaRegeneration) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, ManaRegeneration, OldManaRegeneration);
 }
 
