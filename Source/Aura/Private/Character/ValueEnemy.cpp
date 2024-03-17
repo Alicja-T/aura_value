@@ -15,6 +15,8 @@ AValueEnemy::AValueEnemy() {
   AttributeSet = CreateDefaultSubobject<UValueAttributeSet>(FName("AttributeSet"));
 }
 
+int32 AValueEnemy::GetPlayerLevel() { return Level; }
+
 void AValueEnemy::BeginPlay() { 
   Super::BeginPlay(); 
   InitAbilityActorInfo();

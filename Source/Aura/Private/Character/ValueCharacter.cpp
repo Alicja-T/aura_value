@@ -32,6 +32,12 @@ void AValueCharacter::OnRep_PlayerState() {
   InitAbilityActorInfo();
 }
 
+int32 AValueCharacter::GetPlayerLevel() {
+  AValuePlayerState* ValuePlayerState = GetPlayerState<AValuePlayerState>();
+  check(ValuePlayerState);
+  return ValuePlayerState->GetPlayerLevel();
+}
+
 
 
 void AValueCharacter::InitAbilityActorInfo() {

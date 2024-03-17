@@ -17,6 +17,10 @@ class AURA_API AValueCharacter : public AValueCharacterBase
   AValueCharacter();
   virtual void PossessedBy(AController* Controller) override;
   virtual void OnRep_PlayerState() override;
+  /* CombatInterface */
+  virtual int32 GetPlayerLevel() override;
+  /* End CombatInterface */
+
  private:
   virtual void InitAbilityActorInfo() override;
  	
