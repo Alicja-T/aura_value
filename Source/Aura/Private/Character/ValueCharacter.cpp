@@ -47,5 +47,5 @@ void AValueCharacter::InitAbilityActorInfo() {
       ValueHUD->InitOverlay(ValuePlayerController, ValuePlayerState, AbilitySystemComponent, AttributeSet);
     }
   };
-  InitializePrimaryAttributes();
+  InitializeDefaultAttributes();
 }
