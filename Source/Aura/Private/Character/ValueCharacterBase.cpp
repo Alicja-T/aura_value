@@ -32,8 +32,9 @@ void AValueCharacterBase::ApplyEffectToSelf(
     TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const {
   check(IsValid(GetAbilitySystemComponent()));
   check(GameplayEffectClass);
-  const FGameplayEffectContextHandle ContextHandle =
+  FGameplayEffectContextHandle ContextHandle =
       GetAbilitySystemComponent()->MakeEffectContext();
+  ContextHandle.AddSourceObject(this);
   const FGameplayEffectSpecHandle SpecHandle =
       GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass, Level,
                                                     ContextHandle);
