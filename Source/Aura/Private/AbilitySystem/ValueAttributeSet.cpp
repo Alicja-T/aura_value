@@ -8,8 +8,6 @@
 #include <Net/UnrealNetwork.h>
 
 UValueAttributeSet::UValueAttributeSet() {
-  InitHealth(50.f);
-  InitMana(25.f);
 }
 
 void UValueAttributeSet::GetLifetimeReplicatedProps(
