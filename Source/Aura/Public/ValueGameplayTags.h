@@ -12,6 +12,7 @@ struct FValueGameplayTags {
  public:
   static const FValueGameplayTags& Get() { return GameplayTags; }
   static void InitializeNativeGameplayTags();
+  FGameplayTag Attributes_Secondary_Armor;
  protected:
 
 

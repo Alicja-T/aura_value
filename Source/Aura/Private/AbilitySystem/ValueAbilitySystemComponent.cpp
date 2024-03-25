@@ -2,9 +2,16 @@
 
 
 #include "AbilitySystem/ValueAbilitySystemComponent.h"
+#include "ValueGameplayTags.h"
 
 void UValueAbilitySystemComponent::AbilityActorInfoSet() {
   OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UValueAbilitySystemComponent::EffectApplied);
+
+  	const FValueGameplayTags& GameplayTags = FValueGameplayTags::Get();
+  GEngine->AddOnScreenDebugMessage(
+      -1, 10.f, FColor::Orange,
+      FString::Printf(TEXT("Tag: %s"),
+                      *GameplayTags.Attributes_Secondary_Armor.ToString()));
 }
 
 void UValueAbilitySystemComponent::EffectApplied(
