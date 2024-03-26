@@ -11,4 +11,8 @@ void FValueGameplayTags::InitializeNativeGameplayTags() {
       UGameplayTagsManager::Get().AddNativeGameplayTag(
       FName("Attributes.Secondary.Armor"),
       FString("Reduces damage taken, improves Block Chance"));
+  GameplayTags.Attributes_Secondary_ArmorPenetration =
+      UGameplayTagsManager::Get().AddNativeGameplayTag(
+          FName("Attributes.Secondary.ArmorPenetration"),
+          FString("Reduces damage taken, improves Block Chance"));
 }
