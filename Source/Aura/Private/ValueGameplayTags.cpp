@@ -38,7 +38,7 @@ void FValueGameplayTags::InitializeNativeGameplayTags() {
   GameplayTags.Attributes_Secondary_ArmorPenetration =
       UGameplayTagsManager::Get().AddNativeGameplayTag(
           FName("Attributes.Secondary.ArmorPenetration"),
-          FString("Reduces damage taken, improves Block Chance"));
+          FString("Ignores Percentage of enemy Armor, increases Critical Hit Chance"));
   GameplayTags.Attributes_Secondary_BlockChance =
       UGameplayTagsManager::Get().AddNativeGameplayTag(
           FName("Attributes.Secondary.BlockChance"),
@@ -54,7 +54,7 @@ void FValueGameplayTags::InitializeNativeGameplayTags() {
   GameplayTags.Attributes_Secondary_CriticalHitResistance =
       UGameplayTagsManager::Get().AddNativeGameplayTag(
           FName("Attributes.Secondary.CriticalHitResistance"),
-          FString("Determines the chance to avoid a Critical Hit"));
+          FString("Reduces Critical Hit Chance of attacking enemies"));
   GameplayTags.Attributes_Secondary_HealthRegeneration =
       UGameplayTagsManager::Get().AddNativeGameplayTag(
           FName("Attributes.Secondary.HealthRegeneration"),
