@@ -102,6 +102,7 @@ public:
   /*
     Secondary Attributes
   */
+  ATTRIBUTE_ACCESSORS(UValueAttributeSet, Armor);
   UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor,
             Category = "Secondary Attributes")
   FGameplayAttributeData Armor;
