@@ -23,6 +23,7 @@ AValueCharacter::AValueCharacter() {
 void AValueCharacter::PossessedBy(AController* ValueController) {
   Super::PossessedBy(ValueController);
   InitAbilityActorInfo();
+  AddCharacterAbilities();
 }
 
 

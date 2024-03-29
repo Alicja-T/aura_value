@@ -48,4 +48,11 @@ void AValueCharacterBase::InitializeDefaultAttributes() const {
   ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
 }
 
+void AValueCharacterBase::AddCharacterAbilities() { 
+  if (!HasAuthority()) return;
+  UValueAbilitySystemComponent* ASC =
+      CastChecked<UValueAbilitySystemComponent>(AbilitySystemComponent);
+  ASC->AddCharacterAbilities(StartupAbilities);
+}
+
 
