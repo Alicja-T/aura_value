@@ -4,6 +4,7 @@
 #include "UI/HUD/ValueHUD.h"
 #include "UI/Widget/ValueUserWidget.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
+#include "UI/WidgetController/AttributeMenuWidgetController.h"
 
 UOverlayWidgetController* AValueHUD::GetOverlayWidgetController(
     const FWidgetControllerParams& Params) {
@@ -33,5 +34,20 @@ void AValueHUD::InitOverlay(APlayerController* PC, APlayerState* PS,
   Widget->AddToViewport();
 
 }
+
+UAttributeMenuWidgetController* AValueHUD::GetAttributeMenuWidgetController(
+    const FWidgetControllerParams& Params) {
+  if (AttributeMenuWidgetController == nullptr) {
+    AttributeMenuWidgetController =
+        NewObject<UAttributeMenuWidgetController>(this, AttributeMenuControllerClass);
+    AttributeMenuWidgetController->SetWidgetControllerParams(Params);
+    AttributeMenuWidgetController->BindCallbacksToDependencies();
+  }
+  return AttributeMenuWidgetController;
+}
+
+void AValueHUD::InitAttributeMenu(APlayerController* PC, APlayerState* PS,
+                                  UAbilitySystemComponent* ASC,
+                                  UAttributeSet* AS) {}
 
 

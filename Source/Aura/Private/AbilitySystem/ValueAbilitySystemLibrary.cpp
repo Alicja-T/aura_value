@@ -22,3 +22,19 @@ UValueAbilitySystemLibrary::GetOverlayWidgetController(
   }
   return nullptr;
 }
+
+UAttributeMenuWidgetController*
+UValueAbilitySystemLibrary::GetAttributeMenuWidgetController(
+    const UObject* WorldContextObject) {
+  if (APlayerController* PC =
+          UGameplayStatics::GetPlayerController(WorldContextObject, 0)) {
+    if (AValueHUD* HUD = Cast<AValueHUD>(PC->GetHUD())) {
+      AValuePlayerState* PS = PC->GetPlayerState<AValuePlayerState>();
+      UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
+      UAttributeSet* AS = PS->GetAttributeSet();
+      const FWidgetControllerParams WidgetContollerParams(PC, PS, ASC, AS);
+      return HUD->GetAttributeMenuWidgetController(WidgetContollerParams);
+    }
+  }
+  return nullptr;
+}

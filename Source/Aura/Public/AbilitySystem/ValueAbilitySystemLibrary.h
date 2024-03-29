@@ -7,6 +7,7 @@
 #include "ValueAbilitySystemLibrary.generated.h"
 
 class UOverlayWidgetController;
+class UAttributeMenuWidgetController;
 /**
  * 
  */
@@ -17,4 +18,9 @@ class AURA_API UValueAbilitySystemLibrary : public UBlueprintFunctionLibrary
  public:
    UFUNCTION(BlueprintPure, Category = "ValueAbilitySystemLibrary|WidgetController")
    static UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
+
+   UFUNCTION(BlueprintPure,
+             Category = "ValueAbilitySystemLibrary|WidgetController")
+   static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(
+       const UObject* WorldContextObject);
 };
