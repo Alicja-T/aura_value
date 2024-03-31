@@ -3,11 +3,16 @@
 #include "Player/ValueController.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/ValueAbilitySystemComponent.h"
+#include "Components/SplineComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Input/ValueInputComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "ValueGameplayTags.h"
 
-AValueController::AValueController() { bReplicates = true; }
+AValueController::AValueController() { 
+  bReplicates = true; 
+  Spline = CreateDefaultSubobject<USplineComponent>(FName("Spline"));
+}
 
 void AValueController::PlayerTick(float DeltaTime) {
   Super::PlayerTick(DeltaTime);
@@ -78,7 +83,11 @@ void AValueController::CursorTrace() {
 }
 
 void AValueController::AbilityInputTagPressed(FGameplayTag InputTag) {
-  GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+  // GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+  if (InputTag.MatchesTagExact(FValueGameplayTags::Get().InputTag_LMB)) {
+    bTargeting = CurrentActor ? true : false;
+    bAutoRunning = false;
+  }
 }
 
 void AValueController::AbilityInputTagReleased(FGameplayTag InputTag) {
@@ -87,8 +96,32 @@ void AValueController::AbilityInputTagReleased(FGameplayTag InputTag) {
 }
 
 void AValueController::AbilityInputTagHeld(FGameplayTag InputTag) {
-  if (GetASC() == nullptr) return;
-  GetASC()->AbilityInputTagHeld(InputTag);
+  if (!InputTag.MatchesTagExact(FValueGameplayTags::Get().InputTag_LMB)) {
+    if (GetASC()) {
+      GetASC()->AbilityInputTagHeld(InputTag);
+    }
+    return;
+  }
+
+  if (bTargeting) {
+    if (GetASC()) {
+      GetASC()->AbilityInputTagHeld(InputTag);
+    }
+  } else {
+    FollowTime += GetWorld()->GetDeltaSeconds();
+
+    FHitResult Hit;
+    if (GetHitResultUnderCursor(ECC_Visibility, false, Hit)) {
+      CachedDestination = Hit.ImpactPoint;
+    }
+
+    if (APawn* ControlledPawn = GetPawn()) {
+      const FVector WorldDirection =
+          (CachedDestination - ControlledPawn->GetActorLocation())
+              .GetSafeNormal();
+      ControlledPawn->AddMovementInput(WorldDirection);
+    }
+  }
 }
 
 UValueAbilitySystemComponent* AValueController::GetASC() { 
