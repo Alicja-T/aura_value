@@ -1,7 +1,8 @@
 // Copyright Philosophical Games
 
 #include "Player/ValueController.h"
-
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystem/ValueAbilitySystemComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Input/ValueInputComponent.h"
 #include "Interaction/EnemyInterface.h"
@@ -81,9 +82,20 @@ void AValueController::AbilityInputTagPressed(FGameplayTag InputTag) {
 }
 
 void AValueController::AbilityInputTagReleased(FGameplayTag InputTag) {
-  GEngine->AddOnScreenDebugMessage(2, 3.f, FColor::Blue, *InputTag.ToString());
+  if (GetASC() == nullptr) return;
+  GetASC()->AbilityInputTagReleased(InputTag);
 }
 
 void AValueController::AbilityInputTagHeld(FGameplayTag InputTag) {
-  GEngine->AddOnScreenDebugMessage(3, 3.f, FColor::Green, *InputTag.ToString());
+  if (GetASC() == nullptr) return;
+  GetASC()->AbilityInputTagHeld(InputTag);
+}
+
+UValueAbilitySystemComponent* AValueController::GetASC() { 
+  if (ValueAbilitySystemComponent == nullptr) {
+    ValueAbilitySystemComponent = Cast<UValueAbilitySystemComponent>(
+        UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(
+            GetPawn<APawn>()));
+  }
+  return ValueAbilitySystemComponent;
 }

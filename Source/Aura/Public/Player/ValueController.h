@@ -9,6 +9,7 @@
 
 struct FInputActionValue;
 class IEnemyInterface;
+class UValueAbilitySystemComponent;
 /**
  * 
  */
@@ -42,4 +43,9 @@ class AURA_API AValueController : public APlayerController
 
   UPROPERTY(EditDefaultsOnly, Category = Input)
   TObjectPtr<class UValueInputConfig> InputConfig;
+
+  UPROPERTY()
+  TObjectPtr<UValueAbilitySystemComponent> ValueAbilitySystemComponent;
+
+  UValueAbilitySystemComponent* GetASC();
 };
