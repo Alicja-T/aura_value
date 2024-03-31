@@ -14,7 +14,7 @@ struct FValueInputAction {
   UPROPERTY(EditDefaultsOnly)
   const class UInputAction* InputAction = nullptr;
   UPROPERTY(EditDefaultsOnly)
-  FGameplayTag GameplayTag = FGameplayTag();
+  FGameplayTag InputTag = FGameplayTag();
 };
 
 

@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "EnhancedInputComponent.h"
-#include "ValueInputComponent.generated.h"
 #include "ValueInputConfig.h"
+#include "ValueInputComponent.generated.h"
 
 /**
  *
@@ -25,7 +25,7 @@ class AURA_API UValueInputComponent : public UEnhancedInputComponent {
 template <class UserClass, typename PressedFuncType, typename ReleasedFuncType,
           typename HeldFuncType>
 inline void UValueInputComponent::BindAbilityActions(
-    const UValueInputConfig*, UserClass* Object, PressedFuncType PressedFunc,
+    const UValueInputConfig* InputConfig, UserClass* Object, PressedFuncType PressedFunc,
     ReleasedFuncType ReleasedFunc, HeldFuncType HeldFunc) {
   check(InputConfig);
   for (const auto& Action : InputConfig->AbilityInputActions) {

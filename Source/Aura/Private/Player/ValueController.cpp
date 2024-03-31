@@ -1,25 +1,24 @@
 // Copyright Philosophical Games
 
-
 #include "Player/ValueController.h"
+
 #include "EnhancedInputSubsystems.h"
-#include "EnhancedInputComponent.h"
+#include "Input/ValueInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 
-AValueController::AValueController() { 
-  bReplicates = true; 
-}
+AValueController::AValueController() { bReplicates = true; }
 
 void AValueController::PlayerTick(float DeltaTime) {
   Super::PlayerTick(DeltaTime);
   CursorTrace();
 }
 
-void AValueController::BeginPlay() { 
+void AValueController::BeginPlay() {
   Super::BeginPlay();
   check(ValueContext);
   UEnhancedInputLocalPlayerSubsystem* Subsystem =
-      ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+      ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
+          GetLocalPlayer());
   if (Subsystem) {
     Subsystem->AddMappingContext(ValueContext, 0);
   }
@@ -29,15 +28,17 @@ void AValueController::BeginPlay() {
   InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
   InputModeData.SetHideCursorDuringCapture(false);
   SetInputMode(InputModeData);
-
 }
 
-void AValueController::SetupInputComponent() { 
-  Super::SetupInputComponent(); 
-  UEnhancedInputComponent* EnhancedInputComponent =
-      CastChecked<UEnhancedInputComponent>(InputComponent);
-  EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this,
-                                     &AValueController::Move);
+void AValueController::SetupInputComponent() {
+  Super::SetupInputComponent();
+  UValueInputComponent* ValueInputComponent =
+      CastChecked<UValueInputComponent>(InputComponent);
+  ValueInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this,
+                                  &AValueController::Move);
+  ValueInputComponent->BindAbilityActions(
+      InputConfig, this, &ThisClass::AbilityInputTagPressed,
+      &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
 void AValueController::Move(const FInputActionValue& InputActionValue) {
@@ -52,7 +53,6 @@ void AValueController::Move(const FInputActionValue& InputActionValue) {
   if (APawn* ControlledPawn = GetPawn()) {
     ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
     ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
-  
   }
 }
 
@@ -74,4 +74,16 @@ void AValueController::CursorTrace() {
       CurrentActor->HighlightActor();
     }
   }
+}
+
+void AValueController::AbilityInputTagPressed(FGameplayTag InputTag) {
+  GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+}
+
+void AValueController::AbilityInputTagReleased(FGameplayTag InputTag) {
+  GEngine->AddOnScreenDebugMessage(2, 3.f, FColor::Blue, *InputTag.ToString());
+}
+
+void AValueController::AbilityInputTagHeld(FGameplayTag InputTag) {
+  GEngine->AddOnScreenDebugMessage(3, 3.f, FColor::Green, *InputTag.ToString());
 }

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
 #include "ValueController.generated.h"
 
 struct FInputActionValue;
@@ -33,4 +34,12 @@ class AURA_API AValueController : public APlayerController
 
   IEnemyInterface* LastActor;
   IEnemyInterface* CurrentActor;
+
+  void AbilityInputTagPressed(FGameplayTag InputTag);
+  void AbilityInputTagReleased(FGameplayTag InputTag);
+  void AbilityInputTagHeld(FGameplayTag AInputTag);
+
+
+  UPROPERTY(EditDefaultsOnly, Category = Input)
+  TObjectPtr<class UValueInputConfig> InputConfig;
 };
