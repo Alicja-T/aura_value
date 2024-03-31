@@ -19,7 +19,25 @@ AValueController::AValueController() {
 void AValueController::PlayerTick(float DeltaTime) {
   Super::PlayerTick(DeltaTime);
   CursorTrace();
+  AutoRun();
 }
+
+void AValueController::AutoRun() {
+  if (!bAutoRunning) return;
+  if (APawn* ControlledPawn = GetPawn()) {
+    const FVector LocationOnSpline = Spline->FindLocationClosestToWorldLocation(
+        ControlledPawn->GetActorLocation(), ESplineCoordinateSpace::World);
+    const FVector Direction = Spline->FindDirectionClosestToWorldLocation(
+        LocationOnSpline, ESplineCoordinateSpace::World);
+    ControlledPawn->AddMovementInput(Direction);
+    const float DistanceToDestination =
+        (LocationOnSpline - CachedDestination).Length();
+    if (DistanceToDestination <= AutoRunAcceptanceRadius) {
+      bAutoRunning = false;
+    }
+  }
+}
+
 
 void AValueController::BeginPlay() {
   Super::BeginPlay();
@@ -65,20 +83,15 @@ void AValueController::Move(const FInputActionValue& InputActionValue) {
 }
 
 void AValueController::CursorTrace() {
-  FHitResult CursorHit;
   GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
   if (!CursorHit.bBlockingHit) return;
   LastActor = CurrentActor;
   CurrentActor = Cast<IEnemyInterface>(CursorHit.GetActor());
-  if (LastActor == nullptr) {
-    if (CurrentActor != nullptr) {
-      CurrentActor->HighlightActor();
+  if (LastActor != CurrentActor) {
+    if (LastActor) {
+      LastActor->UnHighlightActor();
     }
-  } else {
-    if (CurrentActor == nullptr) {
-      LastActor->UnHighlightActor();
-    } else if (LastActor != CurrentActor) {
-      LastActor->UnHighlightActor();
+    if (CurrentActor) {
       CurrentActor->HighlightActor();
     }
   }
@@ -105,7 +118,7 @@ void AValueController::AbilityInputTagReleased(FGameplayTag InputTag) {
       GetASC()->AbilityInputTagReleased(InputTag);
     }
   } else {
-    APawn* ControlledPawn = GetPawn();          
+    const APawn* ControlledPawn = GetPawn();          
     if (FollowTime <= ShortPressThreshold && ControlledPawn) {
       if (UNavigationPath* NavPath =
               UNavigationSystemV1::FindPathToLocationSynchronously(
@@ -114,10 +127,8 @@ void AValueController::AbilityInputTagReleased(FGameplayTag InputTag) {
         Spline->ClearSplinePoints();
         for (const FVector& PointLoc : NavPath->PathPoints) {
           Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-          DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false,
-                          5.f);
-
         }
+        CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
         bAutoRunning = true;
       }
     }
@@ -140,10 +151,8 @@ void AValueController::AbilityInputTagHeld(FGameplayTag InputTag) {
     }
   } else {
     FollowTime += GetWorld()->GetDeltaSeconds();
-
-    FHitResult Hit;
-    if (GetHitResultUnderCursor(ECC_Visibility, false, Hit)) {
-      CachedDestination = Hit.ImpactPoint;
+    if (GetHitResultUnderCursor(ECC_Visibility, false, CursorHit)) {
+      CachedDestination = CursorHit.ImpactPoint;
     }
 
     if (APawn* ControlledPawn = GetPawn()) {
@@ -163,3 +172,5 @@ UValueAbilitySystemComponent* AValueController::GetASC() {
   }
   return ValueAbilitySystemComponent;
 }
+
+

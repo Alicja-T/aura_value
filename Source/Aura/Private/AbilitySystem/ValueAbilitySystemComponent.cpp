@@ -6,7 +6,7 @@
 #include "AbilitySystem/Abilities/ValueGameplayAbility.h"
 
 void UValueAbilitySystemComponent::AbilityActorInfoSet() {
-  OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UValueAbilitySystemComponent::EffectApplied);
+  OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UValueAbilitySystemComponent::ClientEffectApplied);
 
   	const FValueGameplayTags& GameplayTags = FValueGameplayTags::Get();
 
@@ -51,7 +51,7 @@ void UValueAbilitySystemComponent::AbilityInputTagReleased(
   }
 }
 
-void UValueAbilitySystemComponent::EffectApplied(
+void UValueAbilitySystemComponent::ClientEffectApplied_Implementation(
     UAbilitySystemComponent* AbilitySystemComponent,
     const FGameplayEffectSpec& EffectSpec,
     FActiveGameplayEffectHandle ActiveEffectHandle) {

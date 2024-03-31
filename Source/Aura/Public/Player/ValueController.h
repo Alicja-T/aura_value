@@ -36,6 +36,7 @@ class AURA_API AValueController : public APlayerController
 
   IEnemyInterface* LastActor;
   IEnemyInterface* CurrentActor;
+  FHitResult CursorHit;
 
   void AbilityInputTagPressed(FGameplayTag InputTag);
   void AbilityInputTagReleased(FGameplayTag InputTag);
@@ -61,4 +62,6 @@ class AURA_API AValueController : public APlayerController
 
   UPROPERTY(VisibleAnywhere)
   TObjectPtr<USplineComponent> Spline;
+
+  void AutoRun();
 };
