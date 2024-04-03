@@ -10,7 +10,7 @@ AValueProjectile::AValueProjectile()
 {
  	
 	PrimaryActorTick.bCanEverTick = false;
-
+  bReplicates = true;
   Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
   SetRootComponent(Sphere);
   Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);

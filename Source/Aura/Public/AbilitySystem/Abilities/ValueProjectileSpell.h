@@ -6,6 +6,7 @@
 #include "AbilitySystem/Abilities/ValueGameplayAbility.h"
 #include "ValueProjectileSpell.generated.h"
 
+class AValueProjectile;
 /**
  * 
  */
@@ -19,4 +20,7 @@ protected:
       const FGameplayAbilityActorInfo* ActorInfo,
       const FGameplayAbilityActivationInfo ActivationInfo,
       const FGameplayEventData* TriggerEventData) override;
+
+  UPROPERTY(EditAnywhere, BlueprintReadOnly)
+  TSubclassOf<AValueProjectile> ProjectileClass;
 };

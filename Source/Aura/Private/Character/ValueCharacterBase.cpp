@@ -26,6 +26,11 @@ void AValueCharacterBase::BeginPlay()
 	
 }
 
+FVector AValueCharacterBase::GetCombatSocketLocation() { 
+  check(Weapon);
+  return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
 void AValueCharacterBase::InitAbilityActorInfo() {}
 
 void AValueCharacterBase::ApplyEffectToSelf(
