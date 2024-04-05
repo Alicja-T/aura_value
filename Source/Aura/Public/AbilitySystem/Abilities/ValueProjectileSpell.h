@@ -14,6 +14,10 @@ UCLASS()
 class AURA_API UValueProjectileSpell : public UValueGameplayAbility
 {
 	GENERATED_BODY()
+
+public:
+
+
 protected:
   virtual void ActivateAbility(
       const FGameplayAbilitySpecHandle Handle,
@@ -21,6 +25,11 @@ protected:
       const FGameplayAbilityActivationInfo ActivationInfo,
       const FGameplayEventData* TriggerEventData) override;
 
+  UFUNCTION(BlueprintCallable)
+  void SpawnProjectile();
+
   UPROPERTY(EditAnywhere, BlueprintReadOnly)
   TSubclassOf<AValueProjectile> ProjectileClass;
+
 };
+

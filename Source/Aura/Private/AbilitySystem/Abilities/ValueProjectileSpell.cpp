@@ -6,6 +6,7 @@
 #include "Interaction/CombatInterface.h"
 
 
+
 void UValueProjectileSpell::ActivateAbility(
     const FGameplayAbilitySpecHandle Handle,
     const FGameplayAbilityActorInfo* ActorInfo,
@@ -13,7 +14,12 @@ void UValueProjectileSpell::ActivateAbility(
     const FGameplayEventData* TriggerEventData) {
   Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
-  const bool isServer = HasAuthority(&ActivationInfo);
+
+}
+
+void UValueProjectileSpell::SpawnProjectile() {
+
+  const bool isServer = GetAvatarActorFromActorInfo()->HasAuthority();
   if (!isServer) return;
   ICombatInterface* CombatInterface =
       Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
