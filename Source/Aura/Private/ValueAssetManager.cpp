@@ -3,6 +3,7 @@
 
 #include "ValueAssetManager.h"
 #include "ValueGameplayTags.h"
+#include "AbilitySystemGlobals.h"
 
 UValueAssetManager& UValueAssetManager::Get() {
   check(GEngine);
@@ -16,4 +17,7 @@ void UValueAssetManager::StartInitialLoading() {
   Super::StartInitialLoading();
 
   FValueGameplayTags::InitializeNativeGameplayTags();
+
+  // This is required to use Target Data!
+  UAbilitySystemGlobals::Get().InitGlobalData();
 }
