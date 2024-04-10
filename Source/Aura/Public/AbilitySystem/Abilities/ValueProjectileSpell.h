@@ -26,7 +26,7 @@ protected:
       const FGameplayEventData* TriggerEventData) override;
 
   UFUNCTION(BlueprintCallable)
-  void SpawnProjectile();
+  void SpawnProjectile(const FVector& ProjectileTargetLocation);
 
   UPROPERTY(EditAnywhere, BlueprintReadOnly)
   TSubclassOf<AValueProjectile> ProjectileClass;

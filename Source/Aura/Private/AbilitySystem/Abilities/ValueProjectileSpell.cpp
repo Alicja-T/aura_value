@@ -17,7 +17,8 @@ void UValueProjectileSpell::ActivateAbility(
 
 }
 
-void UValueProjectileSpell::SpawnProjectile() {
+void UValueProjectileSpell::SpawnProjectile(
+    const FVector& ProjectileTargetLocation) {
 
   const bool isServer = GetAvatarActorFromActorInfo()->HasAuthority();
   if (!isServer) return;
@@ -27,8 +28,10 @@ void UValueProjectileSpell::SpawnProjectile() {
     const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
 
     FTransform SpawnTransform;
+    FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
+    Rotation.Pitch = 0.f;
     SpawnTransform.SetLocation(SocketLocation);
-    // TODO: Set the Projectile Rotation
+    SpawnTransform.SetRotation(Rotation.Quaternion());
 
     AValueProjectile* Projectile =
         GetWorld()->SpawnActorDeferred<AValueProjectile>(
