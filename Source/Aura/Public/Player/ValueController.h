@@ -30,6 +30,12 @@ class AURA_API AValueController : public APlayerController
   TObjectPtr<class UInputMappingContext> ValueContext;
   UPROPERTY(EditAnywhere, Category = Input)
   TObjectPtr<class UInputAction> MoveAction;
+  UPROPERTY(EditAnywhere, Category = Input)
+  TObjectPtr<class UInputAction> LeftShiftAction;
+
+  void LeftShiftPressed() { bLeftShiftDown = true; }
+  void LeftShiftReleased() { bLeftShiftDown = false; }
+  bool bLeftShiftDown = false;
 
   void Move(const FInputActionValue& InputActionValue);
   void CursorTrace();

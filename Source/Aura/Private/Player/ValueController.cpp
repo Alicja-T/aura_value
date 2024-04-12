@@ -62,6 +62,10 @@ void AValueController::SetupInputComponent() {
       CastChecked<UValueInputComponent>(InputComponent);
   ValueInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this,
                                   &AValueController::Move);
+  ValueInputComponent->BindAction(LeftShiftAction, ETriggerEvent::Started, this,
+                                 &AValueController::LeftShiftPressed);
+  ValueInputComponent->BindAction(LeftShiftAction, ETriggerEvent::Completed, this,
+                                 &AValueController::LeftShiftReleased);
   ValueInputComponent->BindAbilityActions(
       InputConfig, this, &ThisClass::AbilityInputTagPressed,
       &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
@@ -113,11 +117,9 @@ void AValueController::AbilityInputTagReleased(FGameplayTag InputTag) {
     return;
   }
 
-  if (bTargeting) {
-    if (GetASC()) {
-      GetASC()->AbilityInputTagReleased(InputTag);
-    }
-  } else {
+  if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
+
+  if (!bTargeting && !bLeftShiftDown) {
     const APawn* ControlledPawn = GetPawn();          
     if (FollowTime <= ShortPressThreshold && ControlledPawn) {
       if (UNavigationPath* NavPath =
@@ -145,16 +147,13 @@ void AValueController::AbilityInputTagHeld(FGameplayTag InputTag) {
     return;
   }
 
-  if (bTargeting) {
-    if (GetASC()) {
-      GetASC()->AbilityInputTagHeld(InputTag);
-    }
+	
+
+	if (bTargeting || bLeftShiftDown) {
+    if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
   } else {
     FollowTime += GetWorld()->GetDeltaSeconds();
-    if (GetHitResultUnderCursor(ECC_Visibility, false, CursorHit)) {
-      CachedDestination = CursorHit.ImpactPoint;
-    }
-
+    if (CursorHit.bBlockingHit) CachedDestination = CursorHit.ImpactPoint;
     if (APawn* ControlledPawn = GetPawn()) {
       const FVector WorldDirection =
           (CachedDestination - ControlledPawn->GetActorLocation())
