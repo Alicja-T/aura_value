@@ -25,6 +25,7 @@ void AValueEnemy::BeginPlay() {
 void AValueEnemy::InitAbilityActorInfo() {
   AbilitySystemComponent->InitAbilityActorInfo(this, this);
   Cast<UValueAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+  InitializeDefaultAttributes();
 }
 
 void AValueEnemy::HighlightActor() { 

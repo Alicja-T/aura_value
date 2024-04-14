@@ -3,6 +3,8 @@
 
 #include "AbilitySystem/Abilities/ValueProjectileSpell.h"
 #include "Actor/ValueProjectile.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "Interaction/CombatInterface.h"
 
 
@@ -38,8 +40,12 @@ void UValueProjectileSpell::SpawnProjectile(
             ProjectileClass, SpawnTransform, GetOwningActorFromActorInfo(),
             Cast<APawn>(GetOwningActorFromActorInfo()),
             ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
-
-    // TODO: Give the Projectile a Gameplay Effect Spec for causing Damage.
+    const UAbilitySystemComponent* SourceASC =
+        UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(
+            GetAvatarActorFromActorInfo());
+    const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(
+        DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
+    Projectile->DamageEffectSpecHandle = SpecHandle;
 
     Projectile->FinishSpawning(SpawnTransform);
   }

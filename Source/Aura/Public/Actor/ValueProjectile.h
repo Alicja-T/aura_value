@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayEffectTypes.h"
 #include "ValueProjectile.generated.h"
 
 class USphereComponent;
@@ -19,8 +20,10 @@ public:
 	AValueProjectile();
   UPROPERTY(VisibleAnywhere)
   TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
+  UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = "true"))
+  FGameplayEffectSpecHandle DamageEffectSpecHandle;
 
-protected:
+ protected:
 
 	virtual void BeginPlay() override;
   virtual void Destroyed() override;

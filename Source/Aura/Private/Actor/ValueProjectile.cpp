@@ -3,6 +3,8 @@
 
 #include "Actor/ValueProjectile.h"
 #include "Aura/Aura.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
@@ -63,6 +65,12 @@ void AValueProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,
                                                  GetActorLocation());
   LoopingSoundComponent->Stop();
   if (HasAuthority()) {
+    if (UAbilitySystemComponent* TargetASC =
+            UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(
+                OtherActor)) {
+      TargetASC->ApplyGameplayEffectSpecToSelf(
+          *DamageEffectSpecHandle.Data.Get());
+    }
     Destroy();
   } else {
     bHit = true;

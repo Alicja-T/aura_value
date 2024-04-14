@@ -7,7 +7,8 @@
 #include "ValueProjectileSpell.generated.h"
 
 class AValueProjectile;
-/**
+class UGameplayEffect;
+    /**
  * 
  */
 UCLASS()
@@ -31,5 +32,7 @@ protected:
   UPROPERTY(EditAnywhere, BlueprintReadOnly)
   TSubclassOf<AValueProjectile> ProjectileClass;
 
+  UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+  TSubclassOf<UGameplayEffect> DamageEffectClass;
 };
 
