@@ -2,6 +2,7 @@
 
 
 #include "Character/ValueCharacterBase.h"
+#include "Aura/Aura.h"
 #include "AbilitySystem/ValueAbilitySystemComponent.h"
 #include "AbilitySystem/ValueAttributeSet.h"
 #include "AbilitySystemComponent.h"
@@ -12,6 +13,8 @@ AValueCharacterBase::AValueCharacterBase()
 	PrimaryActorTick.bCanEverTick = false;
   GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
   GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+  GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
+  GetMesh()->SetGenerateOverlapEvents(true);
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
