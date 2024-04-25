@@ -4,6 +4,7 @@
 #include "Character/ValueEnemy.h"
 #include "AbilitySystem/ValueAbilitySystemComponent.h"
 #include "AbilitySystem/ValueAttributeSet.h"
+#include "AbilitySystem/ValueAbilitySystemLibrary.h"
 #include "Components/WidgetComponent.h"
 #include "UI/Widget/ValueUserWidget.h"
 
@@ -51,6 +52,11 @@ void AValueEnemy::InitAbilityActorInfo() {
   AbilitySystemComponent->InitAbilityActorInfo(this, this);
   Cast<UValueAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
   InitializeDefaultAttributes();
+}
+
+void AValueEnemy::InitializeDefaultAttributes() const {
+  UValueAbilitySystemLibrary::InitializeDefaultAttributes(
+      this, CharacterClass, Level, AbilitySystemComponent);
 }
 
 void AValueEnemy::HighlightActor() { 
