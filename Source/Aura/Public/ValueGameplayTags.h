@@ -35,6 +35,7 @@ struct FValueGameplayTags {
   FGameplayTag InputTag_3;
   FGameplayTag InputTag_4;
 
+  FGameplayTag Damage;
 
  private:
   static FValueGameplayTags GameplayTags;

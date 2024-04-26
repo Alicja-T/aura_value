@@ -5,6 +5,7 @@
 #include "Actor/ValueProjectile.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "Aura/Public/ValueGameplayTags.h"
 #include "Interaction/CombatInterface.h"
 
 
@@ -45,8 +46,12 @@ void UValueProjectileSpell::SpawnProjectile(
             GetAvatarActorFromActorInfo());
     const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(
         DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
-    Projectile->DamageEffectSpecHandle = SpecHandle;
+    FValueGameplayTags GameplayTags = FValueGameplayTags::Get();
+    UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(
+        SpecHandle, GameplayTags.Damage, 50.f);
 
+
+    Projectile->DamageEffectSpecHandle = SpecHandle;
     Projectile->FinishSpawning(SpawnTransform);
   }
 }
