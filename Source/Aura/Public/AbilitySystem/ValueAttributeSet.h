@@ -152,6 +152,14 @@ public:
   FGameplayAttributeData MaxMana;
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, MaxMana);
 
+  /*
+  * Meta Attributes
+  */
+  UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+  FGameplayAttributeData IncomingDamage;
+  ATTRIBUTE_ACCESSORS(UValueAttributeSet, IncomingDamage);
+
+
 
   UFUNCTION()
   void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
