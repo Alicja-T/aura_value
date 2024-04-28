@@ -26,6 +26,10 @@ UAbilitySystemComponent* AValueCharacterBase::GetAbilitySystemComponent()
         return AbilitySystemComponent;
 }
 
+UAnimMontage* AValueCharacterBase::GetHitReactMontage_Implementation() {
+  return HitReactMontage;
+}
+
 // Called when the game starts or when spawned
 void AValueCharacterBase::BeginPlay()
 {

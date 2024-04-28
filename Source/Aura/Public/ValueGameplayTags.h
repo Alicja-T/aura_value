@@ -37,6 +37,8 @@ struct FValueGameplayTags {
 
   FGameplayTag Damage;
 
+  FGameplayTag Effects_HitReact;
+
  private:
   static FValueGameplayTags GameplayTags;
 

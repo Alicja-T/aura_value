@@ -7,6 +7,8 @@
 #include "AbilitySystem/ValueAbilitySystemLibrary.h"
 #include "Components/WidgetComponent.h"
 #include "UI/Widget/ValueUserWidget.h"
+#include "ValueGameplayTags.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AValueEnemy::AValueEnemy() { 
   GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECollisionResponse::ECR_Block);
@@ -22,8 +24,15 @@ AValueEnemy::AValueEnemy() {
 
 int32 AValueEnemy::GetPlayerLevel() { return Level; }
 
+void AValueEnemy::HitReactTagChanged(const FGameplayTag CallbackTag,
+                                     int32 NewCount) {
+  bHitReacting = NewCount > 0;
+  GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+}
+
 void AValueEnemy::BeginPlay() { 
   Super::BeginPlay(); 
+  GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
   InitAbilityActorInfo();
   if (UValueUserWidget* ValueUserWidget =
           Cast<UValueUserWidget>(HealthBar->GetUserWidgetObject())) {
@@ -42,6 +51,10 @@ void AValueEnemy::BeginPlay() {
         .AddLambda([this](const FOnAttributeChangeData& Data) {
           OnMaxHealthChanged.Broadcast(Data.NewValue);
         });
+    AbilitySystemComponent
+        ->RegisterGameplayTagEvent(FValueGameplayTags::Get().Effects_HitReact,
+                                   EGameplayTagEventType::NewOrRemoved)
+        .AddUObject(this, &AValueEnemy::HitReactTagChanged);
 
     OnHealthChanged.Broadcast(AuraAS->GetHealth());
     OnMaxHealthChanged.Broadcast(AuraAS->GetMaxHealth());
