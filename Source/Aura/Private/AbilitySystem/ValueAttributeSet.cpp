@@ -149,7 +149,11 @@ void UValueAttributeSet::PostGameplayEffectExecute(
       const float NewHealth = GetHealth() - LocalIncomingDamage;
       SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
       bool bFatal = NewHealth <= 0;
-       
+      if (!bFatal) {
+        FGameplayTagContainer TagContainer;
+        TagContainer.AddTag( FValueGameplayTags::Get().Effects_HitReact);
+        Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+      }
     
     }
   }

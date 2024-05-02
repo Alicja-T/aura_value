@@ -74,3 +74,17 @@ void UValueAbilitySystemLibrary::InitializeDefaultAttributes(
                             VitalAttributesContextHandle);
   ASC->ApplyGameplayEffectSpecToSelf(*VitalAttributesSpecHandle.Data.Get());
 }
+
+void UValueAbilitySystemLibrary::GiveStartupAbilities(
+    const UObject* WorldContextObject, UAbilitySystemComponent* ASC) {
+  AValueGameModeBase* ValueGameMode = Cast<AValueGameModeBase>(
+      UGameplayStatics::GetGameMode(WorldContextObject));
+  if (ValueGameMode == nullptr) return;
+
+  UCharacterClassInfo* CharacterClassInfo = ValueGameMode->CharacterClassInfo;
+  for (TSubclassOf<UGameplayAbility> AbilityClass :
+       CharacterClassInfo->CommonAbilities) {
+    FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+    ASC->GiveAbility(AbilitySpec);
+  }
+}
