@@ -30,6 +30,25 @@ UAnimMontage* AValueCharacterBase::GetHitReactMontage_Implementation() {
   return HitReactMontage;
 }
 
+void AValueCharacterBase::Die() { 
+  Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+  MulticastHandleDeath(); 
+}
+
+void AValueCharacterBase::MulticastHandleDeath_Implementation() {
+  Weapon->SetSimulatePhysics(true);
+  Weapon->SetEnableGravity(true);
+  Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+  GetMesh()->SetSimulatePhysics(true);
+  GetMesh()->SetEnableGravity(true);
+  GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+  GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic,
+                                           ECollisionResponse::ECR_Block);
+  GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+}
+
 // Called when the game starts or when spawned
 void AValueCharacterBase::BeginPlay()
 {

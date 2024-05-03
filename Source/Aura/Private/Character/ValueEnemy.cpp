@@ -24,6 +24,11 @@ AValueEnemy::AValueEnemy() {
 
 int32 AValueEnemy::GetPlayerLevel() { return Level; }
 
+void AValueEnemy::Die() { 
+  SetLifeSpan(LifeSpan);
+  Super::Die(); 
+ }
+
 void AValueEnemy::HitReactTagChanged(const FGameplayTag CallbackTag,
                                      int32 NewCount) {
   bHitReacting = NewCount > 0;

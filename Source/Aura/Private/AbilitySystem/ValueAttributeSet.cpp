@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/ValueAttributeSet.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "Interaction/CombatInterface.h"
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
 #include <Net/UnrealNetwork.h>
@@ -149,15 +150,23 @@ void UValueAttributeSet::PostGameplayEffectExecute(
       const float NewHealth = GetHealth() - LocalIncomingDamage;
       SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
       bool bFatal = NewHealth <= 0;
-      if (!bFatal) {
+      if (bFatal) {
+        ICombatInterface* CombatInterface =
+            Cast<ICombatInterface>(Props.TargetAvatarActor);
+        if (CombatInterface) {
+          CombatInterface->Die();
+        }
+      } 
+      else {
         FGameplayTagContainer TagContainer;
-        TagContainer.AddTag( FValueGameplayTags::Get().Effects_HitReact);
+        TagContainer.AddTag(FValueGameplayTags::Get().Effects_HitReact);
         Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
       }
-    
     }
   }
 }
+  
+
 
 void UValueAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const {
   GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, Health, OldHealth);
