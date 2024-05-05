@@ -5,11 +5,14 @@
 #include "AbilitySystem/ValueAbilitySystemComponent.h"
 #include "Components/SplineComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameFramework/Character.h"
 #include "NavigationPath.h"
 #include "NavigationSystem.h"
 #include "Input/ValueInputComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "UI/Widget/DamageTextComponent.h"
 #include "ValueGameplayTags.h"
+
 
 AValueController::AValueController() { 
   bReplicates = true; 
@@ -20,6 +23,19 @@ void AValueController::PlayerTick(float DeltaTime) {
   Super::PlayerTick(DeltaTime);
   CursorTrace();
   AutoRun();
+}
+
+void AValueController::ShowDamageNumber_Implementation(
+    float DamageAmount, ACharacter* TargetCharacter) {
+  if (IsValid(TargetCharacter) && DamageTextComponentClass) {
+    UDamageTextComponent* DamageTextComponent = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComponentClass);
+    DamageTextComponent->RegisterComponent();
+    DamageTextComponent->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+    DamageTextComponent->DetachFromComponent(
+        FDetachmentTransformRules::KeepWorldTransform);
+    DamageTextComponent->SetDamageText(DamageAmount);
+  }
+
 }
 
 void AValueController::AutoRun() {

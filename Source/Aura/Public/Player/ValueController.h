@@ -11,6 +11,7 @@ struct FInputActionValue;
 class IEnemyInterface;
 class UValueAbilitySystemComponent;
 class USplineComponent;
+class UDamageTextComponent;
     /**
  * 
  */
@@ -21,6 +22,8 @@ class AURA_API AValueController : public APlayerController
  public:
   AValueController();
   virtual void PlayerTick(float DeltaTime) override;
+  UFUNCTION(Client, Reliable)
+  void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
  protected:
   virtual void BeginPlay() override;
   virtual void SetupInputComponent() override;
@@ -70,4 +73,7 @@ class AURA_API AValueController : public APlayerController
   TObjectPtr<USplineComponent> Spline;
 
   void AutoRun();
+  UPROPERTY(EditDefaultsOnly)
+  TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
+
 };

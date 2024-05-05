@@ -6,6 +6,8 @@
 #include "Interaction/CombatInterface.h"
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/ValueController.h"
 #include <Net/UnrealNetwork.h>
 #include "ValueGameplayTags.h"
 
@@ -119,6 +121,16 @@ void UValueAttributeSet::SetEffectProperties(
 
 }
 
+void UValueAttributeSet::ShowFloatingText(const FEffectProperties& Props,
+                                          float Damage) const {
+  if (Props.SourceCharacter != Props.TargetCharacter) {
+    if (AValueController* VC = Cast<AValueController>(
+            UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0))) {
+      VC->ShowDamageNumber(Damage, Props.TargetCharacter);
+    }
+  }
+}
+
 void UValueAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute,
                                             float& NewValue) {
   Super::PreAttributeChange(Attribute, NewValue);
@@ -162,6 +174,7 @@ void UValueAttributeSet::PostGameplayEffectExecute(
         TagContainer.AddTag(FValueGameplayTags::Get().Effects_HitReact);
         Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
       }
+      ShowFloatingText(Props, LocalIncomingDamage);
     }
   }
 }
