@@ -3,6 +3,7 @@
 #include "AbilitySystem/ExecCalc/ExecCalcDamage.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/ValueAttributeSet.h"
+#include "ValueGameplayTags.h"
 
 struct ValueDamageStatics {
   DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
@@ -41,13 +42,11 @@ void UExecCalcDamage::Execute_Implementation(
   EvaluationParameters.SourceTags = SourceTags;
   EvaluationParameters.TargetTags = TargetTags;
 
-  float Armor = 0.f;
-  ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
-      DamageStatics().ArmorDef, EvaluationParameters, Armor);
-  Armor = FMath::Max<float>(0.f, Armor);
-  ++Armor;
-    const FGameplayModifierEvaluatedData EvaluatedData(
-      DamageStatics().ArmorProperty, EGameplayModOp::Additive, Armor);
+  	// Get Damage Set by Caller Magnitude
+  float Damage = Spec.GetSetByCallerMagnitude(FValueGameplayTags::Get().Damage);
+
+  const FGameplayModifierEvaluatedData EvaluatedData(UValueAttributeSet::GetIncomingDamageAttribute(),
+      EGameplayModOp::Additive, Damage);
   OutExecutionOutput.AddOutputModifier(EvaluatedData);
 
 }
