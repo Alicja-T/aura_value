@@ -43,11 +43,9 @@ UValueAbilitySystemLibrary::GetAttributeMenuWidgetController(
 void UValueAbilitySystemLibrary::InitializeDefaultAttributes(
     const UObject* WorldContextObject, ECharacterClass CharacterClass,
     float Level, UAbilitySystemComponent* ASC) {
-  AValueGameModeBase* GameMode = Cast<AValueGameModeBase>(
-      UGameplayStatics::GetGameMode(WorldContextObject));
-  if (GameMode == nullptr) return;
+
   AActor* AvatarActor = ASC->GetAvatarActor();
-  UCharacterClassInfo* CharacterInfo = GameMode->CharacterClassInfo;
+  UCharacterClassInfo* CharacterInfo = GetCharacterClassInfo(WorldContextObject);
   FCharacterClassDefaultInfo ClassDefaultInfo =
       CharacterInfo->GetClassDefaultInfo(CharacterClass);
   FGameplayEffectContextHandle PrimaryAttributesContextHandle =
@@ -77,14 +75,19 @@ void UValueAbilitySystemLibrary::InitializeDefaultAttributes(
 
 void UValueAbilitySystemLibrary::GiveStartupAbilities(
     const UObject* WorldContextObject, UAbilitySystemComponent* ASC) {
-  AValueGameModeBase* ValueGameMode = Cast<AValueGameModeBase>(
-      UGameplayStatics::GetGameMode(WorldContextObject));
-  if (ValueGameMode == nullptr) return;
 
-  UCharacterClassInfo* CharacterClassInfo = ValueGameMode->CharacterClassInfo;
+  UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
   for (TSubclassOf<UGameplayAbility> AbilityClass :
        CharacterClassInfo->CommonAbilities) {
     FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
     ASC->GiveAbility(AbilitySpec);
   }
+}
+
+UCharacterClassInfo* UValueAbilitySystemLibrary::GetCharacterClassInfo(
+    const UObject* WorldContextObject) {
+  AValueGameModeBase* ValueGameMode = Cast<AValueGameModeBase>(
+      UGameplayStatics::GetGameMode(WorldContextObject));
+  if (ValueGameMode == nullptr) return nullptr;
+  return ValueGameMode->CharacterClassInfo;
 }

@@ -3,7 +3,10 @@
 #include "AbilitySystem/ExecCalc/ExecCalcDamage.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/ValueAttributeSet.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
+#include "AbilitySystem/ValueAbilitySystemLibrary.h"
 #include "ValueGameplayTags.h"
+#include "Interaction/CombatInterface.h"
 
 struct ValueDamageStatics {
   DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
@@ -42,6 +45,8 @@ void UExecCalcDamage::Execute_Implementation(
       ExecutionParams.GetTargetAbilitySystemComponent();
   AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
   AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+  ICombatInterface* SourceCombatInterface = Cast<ICombatInterface>(SourceAvatar);
+  ICombatInterface* TargetCombatInterface = Cast<ICombatInterface>(TargetAvatar);
   const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
   const FGameplayTagContainer* SourceTags =
       Spec.CapturedSourceTags.GetAggregatedTags();
@@ -71,9 +76,18 @@ void UExecCalcDamage::Execute_Implementation(
       DamageStatics().ArmorPenetrationDef, EvaluationParameters, SourceArmorPenetration);
   SourceArmorPenetration = FMath::Max(SourceArmorPenetration, 0.f);
 
-  //TODO rethink these coefficients
+  UCharacterClassInfo* CCI = UValueAbilitySystemLibrary::GetCharacterClassInfo(this);
+  FRealCurve* ArmorPenetrationCurve = CCI->DamageCalcCoefficients->FindCurve(
+      FName("ArmorPenetration"), FString());
+  const float ArmorPenetrationCoefficient =
+      ArmorPenetrationCurve->Eval(SourceCombatInterface->GetPlayerLevel());
+  FRealCurve* EffectiveArmorCurve = CCI->DamageCalcCoefficients->FindCurve(
+      FName("EffectiveArmor"), FString());
+  const float EffectiveArmorCoefficient =
+      EffectiveArmorCurve->Eval(TargetCombatInterface->GetPlayerLevel());
+
   // ArmorPenetration ignores a percentage of the Target's Armor.
-  const float EffectiveArmor = TargetArmor * (100 - SourceArmorPenetration * 0.25f) / 100.f;
+  const float EffectiveArmor = TargetArmor * (100 - SourceArmorPenetration * ArmorPenetrationCoefficient) / 100.f;
   // Armor ignores a percentage of incoming Damage.
   Damage *= (100 - EffectiveArmor * 0.333f) / 100.f;
     
