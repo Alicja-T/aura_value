@@ -127,7 +127,7 @@ void UExecCalcDamage::Execute_Implementation(
   ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
       DamageStatics().CriticalHitDamageDef, EvaluationParameters,
       CriticalHitDamage);
-  float Chance = FMath::RandRange(1, 100);
+  Chance = FMath::RandRange(1, 100);
   CriticalHit = Chance < TargetCriticalHitResistance;
   Damage = CriticalHit ? (Damage * 2.f) + CriticalHitDamage : Damage;
     
