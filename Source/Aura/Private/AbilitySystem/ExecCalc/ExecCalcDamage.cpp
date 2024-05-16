@@ -96,7 +96,8 @@ void UExecCalcDamage::Execute_Implementation(
 
   //TODO rethink coefficients, make them dependent on the difference in levels.
 
-  UCharacterClassInfo* CCI = UValueAbilitySystemLibrary::GetCharacterClassInfo(this);
+  UCharacterClassInfo* CCI =
+      UValueAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
   FRealCurve* ArmorPenetrationCurve = CCI->DamageCalcCoefficients->FindCurve(
       FName("ArmorPenetration"), FString());
   const float ArmorPenetrationCoefficient =
