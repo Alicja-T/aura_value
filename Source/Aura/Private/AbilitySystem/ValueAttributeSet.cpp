@@ -128,7 +128,8 @@ void UValueAttributeSet::ShowFloatingText(const FEffectProperties& Props,
   if (Props.SourceCharacter != Props.TargetCharacter) {
     if (AValueController* VC = Cast<AValueController>(
             UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0))) {
-      VC->ShowDamageNumber(Damage, Props.TargetCharacter);
+      VC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit,
+                           bCriticalHit);
     }
   }
 }

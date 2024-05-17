@@ -26,14 +26,15 @@ void AValueController::PlayerTick(float DeltaTime) {
 }
 
 void AValueController::ShowDamageNumber_Implementation(
-    float DamageAmount, ACharacter* TargetCharacter) {
+    float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit,
+    bool bCriticalHit) {
   if (IsValid(TargetCharacter) && DamageTextComponentClass) {
     UDamageTextComponent* DamageTextComponent = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComponentClass);
     DamageTextComponent->RegisterComponent();
     DamageTextComponent->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
     DamageTextComponent->DetachFromComponent(
         FDetachmentTransformRules::KeepWorldTransform);
-    DamageTextComponent->SetDamageText(DamageAmount);
+    DamageTextComponent->SetDamageText(DamageAmount, bBlockedHit, bCriticalHit);
   }
 
 }
