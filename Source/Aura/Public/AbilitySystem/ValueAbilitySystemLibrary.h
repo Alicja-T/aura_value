@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Data/CharacterClassInfo.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+
 #include "ValueAbilitySystemLibrary.generated.h"
 
 class UOverlayWidgetController;
@@ -40,4 +41,26 @@ class AURA_API UValueAbilitySystemLibrary : public UBlueprintFunctionLibrary
              Category = "ValueAbilitySystemLibrary|CharacterClassDefaults")
    static UCharacterClassInfo* GetCharacterClassInfo(
        const UObject* WorldContextObject);
+
+   	UFUNCTION(BlueprintPure,
+             Category = "ValueAbilitySystemLibrary|GameplayEffects")
+   static bool IsBlockedHit(
+       const FGameplayEffectContextHandle& EffectContextHandle);
+
+   UFUNCTION(BlueprintPure,
+             Category = "ValueAbilitySystemLibrary|GameplayEffects")
+   static bool IsCriticalHit(
+       const FGameplayEffectContextHandle& EffectContextHandle);
+
+   UFUNCTION(BlueprintCallable,
+             Category = "ValueAbilitySystemLibrary|GameplayEffects")
+   static void SetIsBlockedHit(
+       UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle,
+       bool bInIsBlockedHit);
+
+   UFUNCTION(BlueprintCallable,
+             Category = "ValueAbilitySystemLibrary|GameplayEffects")
+   static void SetIsCriticalHit(
+       UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle,
+       bool bInIsCriticalHit);
 };

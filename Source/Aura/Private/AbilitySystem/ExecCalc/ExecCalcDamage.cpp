@@ -81,8 +81,11 @@ void UExecCalcDamage::Execute_Implementation(
   ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
       DamageStatics().BlockChanceDef, EvaluationParameters, TargetBlockChance);
   float chance = FMath::RandRange(1, 100);
-  bool block = chance < TargetBlockChance;
-  Damage = block ? Damage / 2.f : Damage;
+  bool bBlocked = chance < TargetBlockChance;
+  Damage = bBlocked ? Damage / 2.f : Damage;
+  FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+
+  UValueAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
 
   float TargetArmor = 0.f;
   ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
@@ -118,7 +121,9 @@ void UExecCalcDamage::Execute_Implementation(
       DamageStatics().CriticalHitChanceDef, EvaluationParameters,
       SourceCriticalHitChance);
   float Chance = FMath::RandRange(1, 100);
-  bool CriticalHit = Chance < SourceCriticalHitChance;
+  bool bCriticalHit = Chance < SourceCriticalHitChance;
+  UValueAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle,
+                                              bCriticalHit);
 
   float TargetCriticalHitResistance = 0.f;
   ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
@@ -129,8 +134,8 @@ void UExecCalcDamage::Execute_Implementation(
       DamageStatics().CriticalHitDamageDef, EvaluationParameters,
       CriticalHitDamage);
   Chance = FMath::RandRange(1, 100);
-  CriticalHit = Chance < TargetCriticalHitResistance;
-  Damage = CriticalHit ? (Damage * 2.f) + CriticalHitDamage : Damage;
+  bCriticalHit = Chance < TargetCriticalHitResistance;
+  Damage = bCriticalHit ? (Damage * 2.f) + CriticalHitDamage : Damage;
     
   const FGameplayModifierEvaluatedData EvaluatedData(UValueAttributeSet::GetIncomingDamageAttribute(),
       EGameplayModOp::Additive, Damage);

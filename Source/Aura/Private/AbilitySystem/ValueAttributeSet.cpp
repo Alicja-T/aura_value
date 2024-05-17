@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/ValueAttributeSet.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystem/ValueAbilitySystemLibrary.h"
 #include "Interaction/CombatInterface.h"
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
@@ -122,7 +123,8 @@ void UValueAttributeSet::SetEffectProperties(
 }
 
 void UValueAttributeSet::ShowFloatingText(const FEffectProperties& Props,
-                                          float Damage) const {
+                                          float Damage, bool bBlockedHit,
+                                          bool bCriticalHit) const {
   if (Props.SourceCharacter != Props.TargetCharacter) {
     if (AValueController* VC = Cast<AValueController>(
             UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0))) {
@@ -174,7 +176,11 @@ void UValueAttributeSet::PostGameplayEffectExecute(
         TagContainer.AddTag(FValueGameplayTags::Get().Effects_HitReact);
         Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
       }
-      ShowFloatingText(Props, LocalIncomingDamage);
+      const bool bBlock =
+          UValueAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
+      const bool bCriticalHit =
+          UValueAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
+      ShowFloatingText(Props, LocalIncomingDamage, bBlock, bCriticalHit);
     }
   }
 }

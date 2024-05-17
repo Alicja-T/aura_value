@@ -7,6 +7,7 @@
 #include "UI/HUD/ValueHUD.h"
 #include "Player/ValuePlayerState.h"
 #include "UI/WidgetController/ValueWidgetController.h"
+#include "ValueAbilityTypes.h"
 
 UOverlayWidgetController*
 UValueAbilitySystemLibrary::GetOverlayWidgetController(
@@ -90,4 +91,46 @@ UCharacterClassInfo* UValueAbilitySystemLibrary::GetCharacterClassInfo(
       UGameplayStatics::GetGameMode(WorldContextObject));
   if (ValueGameMode == nullptr) return nullptr;
   return ValueGameMode->CharacterClassInfo;
+}
+
+bool UValueAbilitySystemLibrary::IsBlockedHit(
+    const FGameplayEffectContextHandle& EffectContextHandle) {
+  if (const FValueGameplayEffectContext* ValueEffectContext =
+          static_cast<const FValueGameplayEffectContext*>(
+              EffectContextHandle.Get())) {
+    return ValueEffectContext->IsBlockedHit();
+  }
+  return false;
+}
+
+bool UValueAbilitySystemLibrary::IsCriticalHit(
+    const FGameplayEffectContextHandle& EffectContextHandle) {
+  if (const FValueGameplayEffectContext* ValueEffectContext =
+          static_cast<const FValueGameplayEffectContext*>(
+              EffectContextHandle.Get())) {
+    return ValueEffectContext->IsCriticalHit();
+  }
+  return false;
+}
+
+void UValueAbilitySystemLibrary::SetIsBlockedHit(
+    UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle,
+    bool bInIsBlockedHit) {
+  if (FValueGameplayEffectContext* ValueEffectContext =
+          static_cast<FValueGameplayEffectContext*>(
+              EffectContextHandle.Get())) {
+    ValueEffectContext->SetIsBlockedHit(bInIsBlockedHit);
+  }
+
+}
+
+void UValueAbilitySystemLibrary::SetIsCriticalHit(
+    UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle,
+    bool bInIsCriticalHit) {
+  if (FValueGameplayEffectContext* ValueEffectContext =
+          static_cast<FValueGameplayEffectContext*>(
+              EffectContextHandle.Get())) {
+    ValueEffectContext->SetIsCriticalHit(bInIsCriticalHit);
+  }
+
 }
