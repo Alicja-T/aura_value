@@ -72,11 +72,12 @@ void UExecCalcDamage::Execute_Implementation(
   EvaluationParameters.TargetTags = TargetTags;
 
   // Get Damage Set by Caller Magnitude
-  float Damage = Spec.GetSetByCallerMagnitude(FValueGameplayTags::Get().Damage);
-
+  float Damage = 0.f;
+  for (FGameplayTag DamageTypeTag : FValueGameplayTags::Get().DamageTypes) {
+    const float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypeTag);
+    Damage += DamageTypeValue;
+  }
  
-
-
   float TargetBlockChance = 0.f;
   ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
       DamageStatics().BlockChanceDef, EvaluationParameters, TargetBlockChance);
@@ -122,8 +123,6 @@ void UExecCalcDamage::Execute_Implementation(
       SourceCriticalHitChance);
   float Chance = FMath::RandRange(1, 100);
   bool bCriticalHit = Chance < SourceCriticalHitChance;
-  UValueAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle,
-                                              bCriticalHit);
 
   float TargetCriticalHitResistance = 0.f;
   ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
@@ -136,6 +135,8 @@ void UExecCalcDamage::Execute_Implementation(
   Chance = FMath::RandRange(1, 100);
   bCriticalHit = Chance < TargetCriticalHitResistance;
   Damage = bCriticalHit ? (Damage * 2.f) + CriticalHitDamage : Damage;
+  UValueAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle,
+                                               bCriticalHit);
     
   const FGameplayModifierEvaluatedData EvaluatedData(UValueAttributeSet::GetIncomingDamageAttribute(),
       EGameplayModOp::Additive, Damage);
