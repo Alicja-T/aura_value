@@ -152,6 +152,31 @@ public:
   FGameplayAttributeData MaxMana;
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, MaxMana);
 
+
+ /*
+ * Resistance Attributes
+ */
+
+  UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistance,
+            Category = "Resistance Attributes")
+  FGameplayAttributeData FireResistance;
+  ATTRIBUTE_ACCESSORS(UValueAttributeSet, FireResistance);
+
+  UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LightningResistance,
+            Category = "Resistance Attributes")
+  FGameplayAttributeData LightningResistance;
+  ATTRIBUTE_ACCESSORS(UValueAttributeSet, LightningResistance);
+
+  UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArcaneResistance,
+            Category = "Resistance Attributes")
+  FGameplayAttributeData ArcaneResistance;
+  ATTRIBUTE_ACCESSORS(UValueAttributeSet, ArcaneResistance);
+
+  UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance,
+            Category = "Resistance Attributes")
+  FGameplayAttributeData PhysicalResistance;
+  ATTRIBUTE_ACCESSORS(UValueAttributeSet, PhysicalResistance);
+
   /*
   * Meta Attributes
   */
@@ -169,6 +194,22 @@ public:
   void OnRep_Mana(const FGameplayAttributeData& OldMana) const;
   UFUNCTION()
   void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+
+  UFUNCTION()
+  void OnRep_FireResistance(
+      const FGameplayAttributeData& OldFireResistance) const;
+
+  UFUNCTION()
+  void OnRep_LightningResistance(
+      const FGameplayAttributeData& OldLightningResistance) const;
+
+  UFUNCTION()
+  void OnRep_ArcaneResistance(
+      const FGameplayAttributeData& OldArcaneResistance) const;
+
+  UFUNCTION()
+  void OnRep_PhysicalResistance(
+      const FGameplayAttributeData& OldPhysicalResistance) const;
 
   UFUNCTION()
   void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;

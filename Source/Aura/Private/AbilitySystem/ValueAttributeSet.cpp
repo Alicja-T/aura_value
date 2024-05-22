@@ -44,6 +44,16 @@ UValueAttributeSet::UValueAttributeSet() {
                        GetMaxHealthAttribute);
   TagsToAttributes.Add(GameplayTags.Attributes_Secondary_MaxMana,
                        GetMaxManaAttribute);
+
+  /* Resistance Attributes */
+  TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Arcane,
+                       GetArcaneResistanceAttribute);
+  TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Fire,
+                       GetFireResistanceAttribute);
+  TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Lightning,
+                       GetLightningResistanceAttribute);
+  TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Physical,
+                       GetPhysicalResistanceAttribute);
  }
 
 void UValueAttributeSet::GetLifetimeReplicatedProps(
@@ -85,6 +95,16 @@ void UValueAttributeSet::GetLifetimeReplicatedProps(
                                  REPNOTIFY_Always);
   DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, MaxMana, COND_None,
                                  REPNOTIFY_Always);
+  // Resistance Attributes
+
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, FireResistance, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, LightningResistance,
+                                 COND_None, REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, ArcaneResistance, COND_None,
+                                 REPNOTIFY_Always);
+  DOREPLIFETIME_CONDITION_NOTIFY(UValueAttributeSet, PhysicalResistance,
+                                 COND_None, REPNOTIFY_Always);
 }
 
 void UValueAttributeSet::SetEffectProperties(
@@ -208,6 +228,30 @@ void UValueAttributeSet::OnRep_Mana(
 void UValueAttributeSet::OnRep_MaxMana(
     const FGameplayAttributeData& OldMaxMana) const {
   GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, MaxMana, OldMaxMana);
+}
+
+void UValueAttributeSet::OnRep_FireResistance(
+    const FGameplayAttributeData& OldFireResistance) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, FireResistance,
+                              OldFireResistance);
+}
+
+void UValueAttributeSet::OnRep_LightningResistance(
+    const FGameplayAttributeData& OldLightningResistance) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, LightningResistance,
+                              OldLightningResistance);
+}
+
+void UValueAttributeSet::OnRep_ArcaneResistance(
+    const FGameplayAttributeData& OldArcaneResistance) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, ArcaneResistance,
+                              OldArcaneResistance);
+}
+
+void UValueAttributeSet::OnRep_PhysicalResistance(
+    const FGameplayAttributeData& OldPhysicalResistance) const {
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UValueAttributeSet, PhysicalResistance,
+                              OldPhysicalResistance);
 }
 
 
