@@ -32,7 +32,6 @@ void UValueProjectileSpell::SpawnProjectile(
 
     FTransform SpawnTransform;
     FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
-    Rotation.Pitch = 0.f;
     SpawnTransform.SetLocation(SocketLocation);
     SpawnTransform.SetRotation(Rotation.Quaternion());
 

@@ -39,8 +39,10 @@ void AValueEnemy::BeginPlay() {
   Super::BeginPlay(); 
   GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
   InitAbilityActorInfo();
-  UValueAbilitySystemLibrary::GiveStartupAbilities(this,
-                                                   AbilitySystemComponent);
+  if (HasAuthority()) {
+    UValueAbilitySystemLibrary::GiveStartupAbilities(this,
+                                                     AbilitySystemComponent);
+  }
   if (UValueUserWidget* ValueUserWidget =
           Cast<UValueUserWidget>(HealthBar->GetUserWidgetObject())) {
     ValueUserWidget->SetWidgetController(this);
@@ -71,7 +73,9 @@ void AValueEnemy::BeginPlay() {
 void AValueEnemy::InitAbilityActorInfo() {
   AbilitySystemComponent->InitAbilityActorInfo(this, this);
   Cast<UValueAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
-  InitializeDefaultAttributes();
+  if (HasAuthority()) {
+    InitializeDefaultAttributes();
+  }
 }
 
 void AValueEnemy::InitializeDefaultAttributes() const {
