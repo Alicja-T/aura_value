@@ -21,6 +21,10 @@ AValueEnemy::AValueEnemy() {
   AbilitySystemComponent->SetIsReplicated(true);
   AbilitySystemComponent->SetReplicationMode(
       EGameplayEffectReplicationMode::Minimal);
+  bUseControllerRotationPitch = false;
+  bUseControllerRotationRoll = false;
+  bUseControllerRotationYaw = false;
+  GetCharacterMovement()->bUseControllerDesiredRotation = true;
   AttributeSet = CreateDefaultSubobject<UValueAttributeSet>(FName("AttributeSet"));
   HealthBar = CreateDefaultSubobject<UWidgetComponent>(FName("HealthBar"));
   HealthBar->SetupAttachment(GetRootComponent());
