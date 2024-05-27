@@ -5,6 +5,10 @@
 #include "AbilitySystem/ValueAbilitySystemComponent.h"
 #include "AbilitySystem/ValueAttributeSet.h"
 #include "AbilitySystem/ValueAbilitySystemLibrary.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
+
+#include "AI/ValueAIController.h"
 #include "Components/WidgetComponent.h"
 #include "UI/Widget/ValueUserWidget.h"
 #include "ValueGameplayTags.h"
@@ -20,6 +24,14 @@ AValueEnemy::AValueEnemy() {
   AttributeSet = CreateDefaultSubobject<UValueAttributeSet>(FName("AttributeSet"));
   HealthBar = CreateDefaultSubobject<UWidgetComponent>(FName("HealthBar"));
   HealthBar->SetupAttachment(GetRootComponent());
+}
+
+void AValueEnemy::PossessedBy(AController* NewController) {
+  Super::PossessedBy(NewController);
+  if (!HasAuthority()) return;
+  ValueAIController = Cast<AValueAIController>(NewController);
+  ValueAIController->GetBlackboardComponent()->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
+  ValueAIController->RunBehaviorTree(BehaviorTree);
 }
 
 int32 AValueEnemy::GetPlayerLevel() { return Level; }
