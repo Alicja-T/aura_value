@@ -36,6 +36,10 @@ void AValueEnemy::PossessedBy(AController* NewController) {
   ValueAIController = Cast<AValueAIController>(NewController);
   ValueAIController->GetBlackboardComponent()->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
   ValueAIController->RunBehaviorTree(BehaviorTree);
+  ValueAIController->GetBlackboardComponent()->SetValueAsBool(
+      FName("HitReacting"), false);
+  ValueAIController->GetBlackboardComponent()->SetValueAsBool(
+      FName("RangedAttacker"), CharacterClass != ECharacterClass::Warrior);
 }
 
 int32 AValueEnemy::GetPlayerLevel() { return Level; }
@@ -49,6 +53,8 @@ void AValueEnemy::HitReactTagChanged(const FGameplayTag CallbackTag,
                                      int32 NewCount) {
   bHitReacting = NewCount > 0;
   GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+  ValueAIController->GetBlackboardComponent()->SetValueAsBool(
+      FName("HitReacting"), bHitReacting);
 }
 
 void AValueEnemy::BeginPlay() { 
