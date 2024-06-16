@@ -148,8 +148,11 @@ void AValueController::AbilityInputTagReleased(FGameplayTag InputTag) {
         for (const FVector& PointLoc : NavPath->PathPoints) {
           Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
         }
-        CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
-        bAutoRunning = true;
+        if (NavPath->PathPoints.Num() > 0) {
+          CachedDestination =
+              NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
+          bAutoRunning = true;
+        }
       }
     }
     FollowTime = 0.f;
