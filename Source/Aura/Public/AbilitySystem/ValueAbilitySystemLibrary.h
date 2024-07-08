@@ -36,7 +36,8 @@ class AURA_API UValueAbilitySystemLibrary : public UBlueprintFunctionLibrary
    UFUNCTION(BlueprintCallable,
              Category = "ValueAbilitySystemLibrary|CharacterClassDefaults")
    static void GiveStartupAbilities(const UObject* WorldContextObject,
-                                    UAbilitySystemComponent* ASC);
+                                    UAbilitySystemComponent* ASC,
+                                    ECharacterClass CharacterClass);
    UFUNCTION(BlueprintCallable,
              Category = "ValueAbilitySystemLibrary|CharacterClassDefaults")
    static UCharacterClassInfo* GetCharacterClassInfo(

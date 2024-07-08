@@ -8,6 +8,7 @@
 #include "Player/ValuePlayerState.h"
 #include "UI/WidgetController/ValueWidgetController.h"
 #include "ValueAbilityTypes.h"
+#include <Interaction/CombatInterface.h>
 
 UOverlayWidgetController*
 UValueAbilitySystemLibrary::GetOverlayWidgetController(
@@ -75,14 +76,28 @@ void UValueAbilitySystemLibrary::InitializeDefaultAttributes(
 }
 
 void UValueAbilitySystemLibrary::GiveStartupAbilities(
-    const UObject* WorldContextObject, UAbilitySystemComponent* ASC) {
+    const UObject* WorldContextObject, UAbilitySystemComponent* ASC,
+    ECharacterClass CharacterClass) {
 
   UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
+  if (CharacterClassInfo == nullptr) return;
   for (TSubclassOf<UGameplayAbility> AbilityClass :
        CharacterClassInfo->CommonAbilities) {
     FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
     ASC->GiveAbility(AbilitySpec);
   }
+
+  const FCharacterClassDefaultInfo& ClassInfo =
+      CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+  for (auto ClassAbility : ClassInfo.StartupAbilities) {
+    ICombatInterface* CombatInterface =
+        Cast<ICombatInterface>(ASC->GetAvatarActor());
+    if (CombatInterface) {
+      FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(ClassAbility, CombatInterface->GetPlayerLevel());
+      ASC->GiveAbility(AbilitySpec);
+    }
+  }
+  
 }
 
 UCharacterClassInfo* UValueAbilitySystemLibrary::GetCharacterClassInfo(

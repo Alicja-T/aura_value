@@ -63,7 +63,7 @@ void AValueEnemy::BeginPlay() {
   InitAbilityActorInfo();
   if (HasAuthority()) {
     UValueAbilitySystemLibrary::GiveStartupAbilities(this,
-                                                     AbilitySystemComponent);
+                                                     AbilitySystemComponent, CharacterClass);
   }
   if (UValueUserWidget* ValueUserWidget =
           Cast<UValueUserWidget>(HealthBar->GetUserWidgetObject())) {
