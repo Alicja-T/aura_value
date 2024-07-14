@@ -49,6 +49,14 @@ void AValueEnemy::Die() {
   Super::Die(); 
  }
 
+void AValueEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget) {
+   CombatTarget = InCombatTarget;
+ }
+
+ AActor* AValueEnemy::GetCombatTarget_Implementation() const { 
+   return CombatTarget; 
+ }
+
 void AValueEnemy::HitReactTagChanged(const FGameplayTag CallbackTag,
                                      int32 NewCount) {
   bHitReacting = NewCount > 0;
