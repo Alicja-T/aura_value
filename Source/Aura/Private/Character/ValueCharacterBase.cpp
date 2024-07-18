@@ -57,7 +57,7 @@ void AValueCharacterBase::BeginPlay()
 	
 }
 
-FVector AValueCharacterBase::GetCombatSocketLocation() { 
+FVector AValueCharacterBase::GetCombatSocketLocation_Implementation() { 
   check(Weapon);
   return Weapon->GetSocketLocation(WeaponTipSocketName);
 }
