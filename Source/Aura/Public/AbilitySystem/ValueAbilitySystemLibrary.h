@@ -5,63 +5,71 @@
 #include "CoreMinimal.h"
 #include "Data/CharacterClassInfo.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-
 #include "ValueAbilitySystemLibrary.generated.h"
 
 class UOverlayWidgetController;
 class UAttributeMenuWidgetController;
 class UAbilitySystemComponent;
 /**
- * 
+ *
  */
 UCLASS()
-class AURA_API UValueAbilitySystemLibrary : public UBlueprintFunctionLibrary
-{
-	GENERATED_BODY()
+class AURA_API UValueAbilitySystemLibrary : public UBlueprintFunctionLibrary {
+  GENERATED_BODY()
  public:
-   UFUNCTION(BlueprintPure, Category = "ValueAbilitySystemLibrary|WidgetController")
-   static UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
+  UFUNCTION(BlueprintPure,
+            Category = "ValueAbilitySystemLibrary|WidgetController")
+  static UOverlayWidgetController* GetOverlayWidgetController(
+      const UObject* WorldContextObject);
 
-   UFUNCTION(BlueprintPure,
-             Category = "ValueAbilitySystemLibrary|WidgetController")
-   static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(
-       const UObject* WorldContextObject);
-   UFUNCTION(BlueprintCallable,
-             Category = "ValueAbilitySystemLibrary|CharacterClassDefaults")
-   static void InitializeDefaultAttributes(
-       const UObject* WorldContextObject, ECharacterClass CharacterClass,
-                                           float level,
-                                           UAbilitySystemComponent* ASC);
+  UFUNCTION(BlueprintPure,
+            Category = "ValueAbilitySystemLibrary|WidgetController")
+  static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(
+      const UObject* WorldContextObject);
+  UFUNCTION(BlueprintCallable,
+            Category = "ValueAbilitySystemLibrary|CharacterClassDefaults")
+  static void InitializeDefaultAttributes(const UObject* WorldContextObject,
+                                          ECharacterClass CharacterClass,
+                                          float level,
+                                          UAbilitySystemComponent* ASC);
 
-   UFUNCTION(BlueprintCallable,
-             Category = "ValueAbilitySystemLibrary|CharacterClassDefaults")
-   static void GiveStartupAbilities(const UObject* WorldContextObject,
-                                    UAbilitySystemComponent* ASC,
-                                    ECharacterClass CharacterClass);
-   UFUNCTION(BlueprintCallable,
-             Category = "ValueAbilitySystemLibrary|CharacterClassDefaults")
-   static UCharacterClassInfo* GetCharacterClassInfo(
-       const UObject* WorldContextObject);
+  UFUNCTION(BlueprintCallable,
+            Category = "ValueAbilitySystemLibrary|CharacterClassDefaults")
+  static void GiveStartupAbilities(const UObject* WorldContextObject,
+                                   UAbilitySystemComponent* ASC,
+                                   ECharacterClass CharacterClass);
+  UFUNCTION(BlueprintCallable,
+            Category = "ValueAbilitySystemLibrary|CharacterClassDefaults")
+  static UCharacterClassInfo* GetCharacterClassInfo(
+      const UObject* WorldContextObject);
 
-   	UFUNCTION(BlueprintPure,
-             Category = "ValueAbilitySystemLibrary|GameplayEffects")
-   static bool IsBlockedHit(
-       const FGameplayEffectContextHandle& EffectContextHandle);
+  UFUNCTION(BlueprintPure,
+            Category = "ValueAbilitySystemLibrary|GameplayEffects")
+  static bool IsBlockedHit(
+      const FGameplayEffectContextHandle& EffectContextHandle);
 
-   UFUNCTION(BlueprintPure,
-             Category = "ValueAbilitySystemLibrary|GameplayEffects")
-   static bool IsCriticalHit(
-       const FGameplayEffectContextHandle& EffectContextHandle);
+  UFUNCTION(BlueprintPure,
+            Category = "ValueAbilitySystemLibrary|GameplayEffects")
+  static bool IsCriticalHit(
+      const FGameplayEffectContextHandle& EffectContextHandle);
 
-   UFUNCTION(BlueprintCallable,
-             Category = "ValueAbilitySystemLibrary|GameplayEffects")
-   static void SetIsBlockedHit(
-       UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle,
-       bool bInIsBlockedHit);
+  UFUNCTION(BlueprintCallable,
+            Category = "ValueAbilitySystemLibrary|GameplayEffects")
+  static void SetIsBlockedHit(
+      UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle,
+      bool bInIsBlockedHit);
 
-   UFUNCTION(BlueprintCallable,
-             Category = "ValueAbilitySystemLibrary|GameplayEffects")
-   static void SetIsCriticalHit(
-       UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle,
-       bool bInIsCriticalHit);
+  UFUNCTION(BlueprintCallable,
+            Category = "ValueAbilitySystemLibrary|GameplayEffects")
+  static void SetIsCriticalHit(
+      UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle,
+      bool bInIsCriticalHit);
+
+  UFUNCTION(BlueprintCallable,
+            Category = "ValueAbilitySystemLibrary|GameMechanics")
+  static void GetLivePlayersWithinRadius(const UObject* WorldContextObject,
+                                         TArray<AActor*>& OutOverlappingActors,
+                                         const TArray<AActor*>& ActorsToIgnore,
+                                         float Radius,
+                                         const FVector& SphereOrigin);
 };

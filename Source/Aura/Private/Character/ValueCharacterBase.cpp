@@ -47,7 +47,7 @@ void AValueCharacterBase::MulticastHandleDeath_Implementation() {
                                            ECollisionResponse::ECR_Block);
   GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
   Dissolve();
-
+  bDead = true;
 }
 
 // Called when the game starts or when spawned
@@ -60,6 +60,14 @@ void AValueCharacterBase::BeginPlay()
 FVector AValueCharacterBase::GetCombatSocketLocation_Implementation() { 
   check(Weapon);
   return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
+bool AValueCharacterBase::IsDead_Implementation() const { 
+  return bDead; 
+}
+
+AActor* AValueCharacterBase::GetAvatar_Implementation() {
+  return this;
 }
 
 void AValueCharacterBase::InitAbilityActorInfo() {}
