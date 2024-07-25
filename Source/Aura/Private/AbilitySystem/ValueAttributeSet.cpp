@@ -150,6 +150,12 @@ void UValueAttributeSet::ShowFloatingText(const FEffectProperties& Props,
                 Props.SourceCharacter->Controller)) {
       PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit,
                            bCriticalHit);
+      return;    
+    }
+    if (AValueController* PC =
+            Cast<AValueController>(Props.TargetCharacter->Controller)) {
+      PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit,
+                           bCriticalHit);
     }
   }
 }
