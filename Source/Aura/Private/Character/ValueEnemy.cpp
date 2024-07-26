@@ -61,8 +61,10 @@ void AValueEnemy::HitReactTagChanged(const FGameplayTag CallbackTag,
                                      int32 NewCount) {
   bHitReacting = NewCount > 0;
   GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+  if (ValueAIController && ValueAIController->GetBlackboardComponent()) {
   ValueAIController->GetBlackboardComponent()->SetValueAsBool(
       FName("HitReacting"), bHitReacting);
+  }
 }
 
 void AValueEnemy::BeginPlay() { 
