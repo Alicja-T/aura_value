@@ -1,16 +1,16 @@
 // Copyright Philosophical Games
 
-
 #include "ValueGameplayTags.h"
+
 #include "GameplayTagsManager.h"
 
 FValueGameplayTags FValueGameplayTags::GameplayTags;
 
 void FValueGameplayTags::InitializeNativeGameplayTags() {
   /*
-  Primary Attributes 
-  */ 
-  
+  Primary Attributes
+  */
+
   GameplayTags.Attributes_Primary_Strength =
       UGameplayTagsManager::Get().AddNativeGameplayTag(
           FName("Attributes.Primary.Strength"),
@@ -30,15 +30,15 @@ void FValueGameplayTags::InitializeNativeGameplayTags() {
       UGameplayTagsManager::Get().AddNativeGameplayTag(
           FName("Attributes.Primary.Vigor"), FString("Increases Health"));
 
-
   GameplayTags.Attributes_Secondary_Armor =
       UGameplayTagsManager::Get().AddNativeGameplayTag(
-      FName("Attributes.Secondary.Armor"),
-      FString("Reduces damage taken, improves Block Chance"));
+          FName("Attributes.Secondary.Armor"),
+          FString("Reduces damage taken, improves Block Chance"));
   GameplayTags.Attributes_Secondary_ArmorPenetration =
       UGameplayTagsManager::Get().AddNativeGameplayTag(
           FName("Attributes.Secondary.ArmorPenetration"),
-          FString("Ignores Percentage of enemy Armor, increases Critical Hit Chance"));
+          FString("Ignores Percentage of enemy Armor, increases Critical Hit "
+                  "Chance"));
   GameplayTags.Attributes_Secondary_BlockChance =
       UGameplayTagsManager::Get().AddNativeGameplayTag(
           FName("Attributes.Secondary.BlockChance"),
@@ -94,14 +94,13 @@ void FValueGameplayTags::InitializeNativeGameplayTags() {
   GameplayTags.InputTag_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(
       FName("InputTag.4"), FString("Input Tag for 4 key"));
 
-
-  GameplayTags.Damage =
-      UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("Damage"));
+  GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+      FName("Damage"), FString("Damage"));
 
   GameplayTags.Damage_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
       FName("Damage.Fire"), FString("Fire Damage Type"));
-  
- 	/*
+
+  /*
    * Resistances
    */
 
@@ -138,6 +137,22 @@ void FValueGameplayTags::InitializeNativeGameplayTags() {
           FName("Abilities.Attack"), FString("Attack Ability Tag"));
 
   /*
+   * Montage
+   */
+
+  GameplayTags.Montage_Attack_Weapon =
+      UGameplayTagsManager::Get().AddNativeGameplayTag(
+          FName("Montage.Attack.Weapon"), FString("Montage Weapon Attack Tag"));
+  GameplayTags.Montage_Attack_RightHand =
+      UGameplayTagsManager::Get().AddNativeGameplayTag(
+          FName("Montage.Attack.RightHand"),
+          FString("Montage Right Hand Attack Tag"));
+  GameplayTags.Montage_Attack_LeftHand =
+      UGameplayTagsManager::Get().AddNativeGameplayTag(
+          FName("Montage.Attack.LeftHand"),
+          FString("Montage Left Hand Attack Tag"));
+
+  /*
    * Map of Damage Types to Resistances
    */
   GameplayTags.DamageTypesToResistances.Add(
@@ -151,6 +166,7 @@ void FValueGameplayTags::InitializeNativeGameplayTags() {
   GameplayTags.DamageTypesToResistances.Add(
       GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
 
-  GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(
-      FName("Effects.HitReact"), FString("Reaction to being hit"));
+  GameplayTags.Effects_HitReact =
+      UGameplayTagsManager::Get().AddNativeGameplayTag(
+          FName("Effects.HitReact"), FString("Reaction to being hit"));
 }
