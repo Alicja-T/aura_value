@@ -6,6 +6,7 @@
 #include "AbilitySystem/ValueAbilitySystemComponent.h"
 #include "AbilitySystem/ValueAttributeSet.h"
 #include "AbilitySystemComponent.h"
+#include "ValueGameplayTags.h"
 #include "Components/CapsuleComponent.h"
 
 AValueCharacterBase::AValueCharacterBase()
@@ -57,9 +58,18 @@ void AValueCharacterBase::BeginPlay()
 	
 }
 
-FVector AValueCharacterBase::GetCombatSocketLocation_Implementation() { 
-  check(Weapon);
-  return Weapon->GetSocketLocation(WeaponTipSocketName);
+FVector AValueCharacterBase::GetCombatSocketLocation_Implementation(
+    const FGameplayTag& MontageTag) { 
+  const FValueGameplayTags& GameplayTags = FValueGameplayTags::Get();
+  if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(Weapon)) {
+    return Weapon->GetSocketLocation(WeaponTipSocketName);
+  } else if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand)) {
+    return GetMesh()->GetSocketLocation(LeftHandSocketName);
+  } else if (MontageTag.MatchesTagExact(
+                 GameplayTags.Montage_Attack_RightHand)) {
+    return GetMesh()->GetSocketLocation(RightHandSocketName);
+  }
+  return FVector();
 }
 
 bool AValueCharacterBase::IsDead_Implementation() const { 

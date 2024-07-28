@@ -2,9 +2,9 @@
 
 #pragma once
 
+#include "AbilitySystemInterface.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "AbilitySystemInterface.h"
 #include "Interaction/CombatInterface.h"
 #include "ValueCharacterBase.generated.h"
 
@@ -15,18 +15,20 @@ class UGameplayAbility;
 class UAnimMontage;
 
 UCLASS(Abstract)
-class AURA_API AValueCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
-{
-	GENERATED_BODY()
+class AURA_API AValueCharacterBase : public ACharacter,
+                                     public IAbilitySystemInterface,
+                                     public ICombatInterface {
+  GENERATED_BODY()
 
-public:
-	// Sets default values for this character's properties
-	AValueCharacterBase();
+ public:
+  // Sets default values for this character's properties
+  AValueCharacterBase();
   virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-  UAttributeSet* GetAttributeSet() const { return AttributeSet;  }
+  UAttributeSet* GetAttributeSet() const { return AttributeSet; }
   /* CombatInterface */
   virtual UAnimMontage* GetHitReactMontage_Implementation() override;
-  virtual FVector GetCombatSocketLocation_Implementation() override;
+  virtual FVector GetCombatSocketLocation_Implementation(
+      const FGameplayTag& MontageTag) override;
   virtual bool IsDead_Implementation() const override;
   virtual AActor* GetAvatar_Implementation() override;
   virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
@@ -39,31 +41,37 @@ public:
   UFUNCTION(NetMulticast, Reliable)
   virtual void MulticastHandleDeath();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+ protected:
+  // Called when the game starts or when spawned
+  virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Combat")
-	TObjectPtr<USkeletalMeshComponent> Weapon;
+  UPROPERTY(EditAnywhere, Category = "Combat")
+  TObjectPtr<USkeletalMeshComponent> Weapon;
   UPROPERTY(EditAnywhere, Category = "Combat")
   FName WeaponTipSocketName;
+
+  UPROPERTY(EditAnywhere, Category = "Combat")
+  FName LeftHandSocketName;
+
+  UPROPERTY(EditAnywhere, Category = "Combat")
+  FName RightHandSocketName;
 
   bool bDead = false;
 
   UPROPERTY()
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+  TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
   UPROPERTY()
   TObjectPtr<UAttributeSet> AttributeSet;
 
-	virtual void InitAbilityActorInfo();
+  virtual void InitAbilityActorInfo();
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+  UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
   TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+  UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
   TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
 
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+  UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
   TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 
   void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass,
@@ -76,7 +84,8 @@ protected:
   UFUNCTION(BlueprintImplementableEvent)
   void StartDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
   UFUNCTION(BlueprintImplementableEvent)
-  void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
+  void StartWeaponDissolveTimeline(
+      UMaterialInstanceDynamic* DynamicMaterialInstance);
   UPROPERTY(EditAnywhere, BlueprintReadOnly)
   TObjectPtr<UMaterialInstance> DissolveMaterialInstance;
   UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -87,5 +96,4 @@ protected:
   TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
   UPROPERTY(EditAnywhere, Category = "Combat")
   TObjectPtr<UAnimMontage> HitReactMontage;
-
 };

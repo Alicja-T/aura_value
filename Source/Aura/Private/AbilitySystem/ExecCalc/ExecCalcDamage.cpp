@@ -127,7 +127,7 @@ void UExecCalcDamage::Execute_Implementation(
     const FGameplayEffectAttributeCaptureDefinition CaptureDef =
         ValueDamageStatics().TagsToCaptureDefs[ResistanceTag];
 
-    float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key);
+    float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key, false);
 
     float Resistance = 0.f;
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
@@ -201,5 +201,5 @@ void UExecCalcDamage::Execute_Implementation(
   const FGameplayModifierEvaluatedData EvaluatedData(UValueAttributeSet::GetIncomingDamageAttribute(),
       EGameplayModOp::Additive, Damage);
   OutExecutionOutput.AddOutputModifier(EvaluatedData);
-
+  UE_LOG(LogTemp, Warning, TEXT("Final damage value is: %f"), Damage);
 }

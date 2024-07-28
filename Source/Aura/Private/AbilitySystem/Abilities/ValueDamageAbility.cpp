@@ -12,7 +12,9 @@ void UValueDamageAbility::CauseDamage(AActor* TargetActor) {
     const float ScaledDamage = Pair.Value.GetValueAtLevel(GetAbilityLevel());
     UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(
         DamageSpecHandle, Pair.Key, ScaledDamage);
+    UE_LOG(LogTemp, Warning, TEXT("The damage value is: %f"), ScaledDamage);
   }
+
   GetAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectSpecToTarget(
       *DamageSpecHandle.Data.Get(),
       UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor));
