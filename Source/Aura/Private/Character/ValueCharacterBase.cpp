@@ -67,7 +67,10 @@ bool AValueCharacterBase::IsDead_Implementation() const {
 }
 
 AActor* AValueCharacterBase::GetAvatar_Implementation() {
-  return this;
+  return this; }
+
+TArray<FTaggedMontage> AValueCharacterBase::GetAttackMontages_Implementation() {
+  return AttackMontages;
 }
 
 void AValueCharacterBase::InitAbilityActorInfo() {}
