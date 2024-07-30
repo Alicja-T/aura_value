@@ -72,4 +72,8 @@ class AURA_API UValueAbilitySystemLibrary : public UBlueprintFunctionLibrary {
                                          const TArray<AActor*>& ActorsToIgnore,
                                          float Radius,
                                          const FVector& SphereOrigin);
+
+  UFUNCTION(BlueprintPure,
+            Category = "ValueAbilitySystemLibrary|GameMechanics")
+  static bool IsNotFriend(AActor* FirstActor, AActor* SecondActor);
 };
