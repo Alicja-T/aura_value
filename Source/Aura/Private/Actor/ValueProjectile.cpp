@@ -10,6 +10,7 @@
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "AbilitySystem/ValueAbilitySystemLibrary.h"
 
 
 AValueProjectile::AValueProjectile()
@@ -62,6 +63,12 @@ void AValueProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,
   if (DamageEffectSpecHandle.Data.IsValid() &&
       DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() ==
           OtherActor) {
+    return;
+  }
+
+  if (!UValueAbilitySystemLibrary::IsNotFriend(
+          DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser(),
+          OtherActor)) {
     return;
   }
   if (!bHit) {
