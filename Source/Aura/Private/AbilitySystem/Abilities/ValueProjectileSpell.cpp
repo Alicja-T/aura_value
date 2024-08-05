@@ -24,7 +24,8 @@ void UValueProjectileSpell::SpawnProjectile(
       ICombatInterface::Execute_GetCombatSocketLocation(
           GetAvatarActorFromActorInfo(),
           FValueGameplayTags::Get().Montage_Attack_Weapon);
-
+  //DrawDebugSphere(GetWorld(), SocketLocation, 50.f, 12, FColor::Red);
+  
   FTransform SpawnTransform;
   FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
   SpawnTransform.SetLocation(SocketLocation);
