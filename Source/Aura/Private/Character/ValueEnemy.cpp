@@ -46,6 +46,10 @@ int32 AValueEnemy::GetPlayerLevel() { return Level; }
 
 void AValueEnemy::Die() { 
   SetLifeSpan(LifeSpan);
+  if (ValueAIController) {
+  ValueAIController->GetBlackboardComponent()->SetValueAsBool(
+      FName("IsDead"), true);
+  }
   Super::Die(); 
  }
 
