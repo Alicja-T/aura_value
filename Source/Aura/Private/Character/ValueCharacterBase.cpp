@@ -36,6 +36,10 @@ void AValueCharacterBase::Die() {
   MulticastHandleDeath(); 
 }
 
+UNiagaraSystem* AValueCharacterBase::GetBloodEffect_Implementation() {
+  return BloodEffect;
+}
+
 void AValueCharacterBase::MulticastHandleDeath_Implementation() {
   Weapon->SetSimulatePhysics(true);
   Weapon->SetEnableGravity(true);
