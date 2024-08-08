@@ -36,6 +36,8 @@ class AURA_API AValueCharacterBase : public ACharacter,
   virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override;
   virtual void Die() override;
   virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
+  virtual FTaggedMontage GetTaggedMontageByTag_Implementation(
+      const FGameplayTag& MontageTag) override;
   /* End CombatInterface*/
 
   UPROPERTY(EditAnywhere, Category = "Combat")

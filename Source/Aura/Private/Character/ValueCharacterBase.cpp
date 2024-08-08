@@ -40,6 +40,16 @@ UNiagaraSystem* AValueCharacterBase::GetBloodEffect_Implementation() {
   return BloodEffect;
 }
 
+FTaggedMontage AValueCharacterBase::GetTaggedMontageByTag_Implementation(
+    const FGameplayTag& MontageTag) {
+  for (FTaggedMontage TaggedMontage : AttackMontages) {
+    if (TaggedMontage.MontageTag == MontageTag) {
+      return TaggedMontage;
+    }
+  }
+  return FTaggedMontage();
+}
+
 void AValueCharacterBase::MulticastHandleDeath_Implementation() {
   Weapon->SetSimulatePhysics(true);
   Weapon->SetEnableGravity(true);
@@ -65,12 +75,12 @@ void AValueCharacterBase::BeginPlay()
 FVector AValueCharacterBase::GetCombatSocketLocation_Implementation(
     const FGameplayTag& MontageTag) { 
   const FValueGameplayTags& GameplayTags = FValueGameplayTags::Get();
-  if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(Weapon)) {
+  if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_Weapon) &&
+      IsValid(Weapon)) {
     return Weapon->GetSocketLocation(WeaponTipSocketName);
-  } else if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand)) {
+  } else if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_LeftHand)) {
     return GetMesh()->GetSocketLocation(LeftHandSocketName);
-  } else if (MontageTag.MatchesTagExact(
-                 GameplayTags.Montage_Attack_RightHand)) {
+  } else if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_RightHand)) {
     return GetMesh()->GetSocketLocation(RightHandSocketName);
   }
   return FVector();
