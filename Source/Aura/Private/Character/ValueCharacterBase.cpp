@@ -8,6 +8,7 @@
 #include "AbilitySystemComponent.h"
 #include "ValueGameplayTags.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 AValueCharacterBase::AValueCharacterBase()
 {
@@ -51,6 +52,8 @@ FTaggedMontage AValueCharacterBase::GetTaggedMontageByTag_Implementation(
 }
 
 void AValueCharacterBase::MulticastHandleDeath_Implementation() {
+  UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(),
+                                        GetActorRotation());
   Weapon->SetSimulatePhysics(true);
   Weapon->SetEnableGravity(true);
   Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
