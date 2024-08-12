@@ -8,7 +8,8 @@
 
 class AValueProjectile;
 class UGameplayEffect;
-    /**
+struct FGameplayTag;
+ /**
  * 
  */
 UCLASS()
@@ -27,7 +28,8 @@ protected:
       const FGameplayEventData* TriggerEventData) override;
 
   UFUNCTION(BlueprintCallable)
-  void SpawnProjectile(const FVector& ProjectileTargetLocation);
+  void SpawnProjectile(const FVector& ProjectileTargetLocation,
+                       const FGameplayTag& SocketTag);
 
   UPROPERTY(EditAnywhere, BlueprintReadOnly)
   TSubclassOf<AValueProjectile> ProjectileClass;

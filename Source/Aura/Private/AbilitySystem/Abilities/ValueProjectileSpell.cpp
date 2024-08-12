@@ -17,13 +17,13 @@ void UValueProjectileSpell::ActivateAbility(
 }
 
 void UValueProjectileSpell::SpawnProjectile(
-    const FVector& ProjectileTargetLocation) {
+    const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag) {
   const bool isServer = GetAvatarActorFromActorInfo()->HasAuthority();
   if (!isServer) return;
   const FVector SocketLocation =
       ICombatInterface::Execute_GetCombatSocketLocation(
           GetAvatarActorFromActorInfo(),
-          FValueGameplayTags::Get().CombatSocket_Weapon);
+          SocketTag);
     
   FTransform SpawnTransform;
   FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
