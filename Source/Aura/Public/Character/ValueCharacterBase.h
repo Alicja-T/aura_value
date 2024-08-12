@@ -60,6 +60,8 @@ class AURA_API AValueCharacterBase : public ACharacter,
 
   UPROPERTY(EditAnywhere, Category = "Combat")
   FName RightHandSocketName;
+  UPROPERTY(EditAnywhere, Category = "Combat")
+  FName TailSocketName;
 
   bool bDead = false;
 

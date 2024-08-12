@@ -151,7 +151,10 @@ void FValueGameplayTags::InitializeNativeGameplayTags() {
       UGameplayTagsManager::Get().AddNativeGameplayTag(
           FName("CombatSocket.LeftHand"),
           FString("Combat Socket Left Hand Tag"));
-
+  GameplayTags.CombatSocket_Tail =
+      UGameplayTagsManager::Get().AddNativeGameplayTag(
+          FName("CombatSocket.Tail"),
+          FString("Combat Socket Tail Tag"));
   	/*
    * Montage Tags
    */

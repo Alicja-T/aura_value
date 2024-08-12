@@ -85,6 +85,8 @@ FVector AValueCharacterBase::GetCombatSocketLocation_Implementation(
     return GetMesh()->GetSocketLocation(LeftHandSocketName);
   } else if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_RightHand)) {
     return GetMesh()->GetSocketLocation(RightHandSocketName);
+  } else if (MontageTag.MatchesTagExact(GameplayTags.CombatSocket_Tail)) {
+    return GetMesh()->GetSocketLocation(TailSocketName);
   }
   return FVector();
 }
