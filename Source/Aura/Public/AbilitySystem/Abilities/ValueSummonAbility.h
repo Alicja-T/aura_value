@@ -30,4 +30,7 @@ class AURA_API UValueSummonAbility : public UValueGameplayAbility
 
   UPROPERTY(EditDefaultsOnly, Category = "Summoning")
   float SpawnSpread = 90.f;
+
+  UFUNCTION(BlueprintPure, Category = "Summoning")
+  TSubclassOf<APawn> GetRandomMinionClass();
 };

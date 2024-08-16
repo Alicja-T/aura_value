@@ -31,3 +31,8 @@ TArray<FVector> UValueSummonAbility::GetSpawnLocations() {
 
   return SpawnLocations;
 }
+
+TSubclassOf<APawn> UValueSummonAbility::GetRandomMinionClass() {
+  const int32 Index = FMath::RandRange(0, MinionClasses.Num() - 1);
+  return MinionClasses[Index];
+}
