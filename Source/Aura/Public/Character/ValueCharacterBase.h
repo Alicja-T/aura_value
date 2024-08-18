@@ -38,6 +38,8 @@ class AURA_API AValueCharacterBase : public ACharacter,
   virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
   virtual FTaggedMontage GetTaggedMontageByTag_Implementation(
       const FGameplayTag& MontageTag) override;
+  virtual int32 GetMinionCount_Implementation() override;
+  virtual void IncrementMinionCount_Implementation(int32 Amount) override;
   /* End CombatInterface*/
 
   UPROPERTY(EditAnywhere, Category = "Combat")
@@ -103,7 +105,10 @@ class AURA_API AValueCharacterBase : public ACharacter,
   UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
   USoundBase* DeathSound;
 
- private:
+  /* Minions */
+  int32 MinionCount = 0;
+ 
+private:
   UPROPERTY(EditAnywhere, Category = "Abilities")
   TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
   UPROPERTY(EditAnywhere, Category = "Combat")

@@ -51,6 +51,14 @@ FTaggedMontage AValueCharacterBase::GetTaggedMontageByTag_Implementation(
   return FTaggedMontage();
 }
 
+int32 AValueCharacterBase::GetMinionCount_Implementation() { 
+  return MinionCount; 
+}
+
+void AValueCharacterBase::IncrementMinionCount_Implementation(int32 Amount) {
+  MinionCount += Amount;
+}
+
 void AValueCharacterBase::MulticastHandleDeath_Implementation() {
   UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(),
                                         GetActorRotation());
