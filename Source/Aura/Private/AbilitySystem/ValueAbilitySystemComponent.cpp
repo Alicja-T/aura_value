@@ -14,8 +14,7 @@ void UValueAbilitySystemComponent::AbilityActorInfoSet() {
 
 void UValueAbilitySystemComponent::AddCharacterAbilities(
     const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities) {
-
-  	for (const TSubclassOf<UGameplayAbility> AbilityClass : StartupAbilities) {
+  for (const TSubclassOf<UGameplayAbility> AbilityClass : StartupAbilities) {
     FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
     if (const UValueGameplayAbility* AuraAbility =
             Cast<UValueGameplayAbility>(AbilitySpec.Ability)) {
@@ -23,6 +22,8 @@ void UValueAbilitySystemComponent::AddCharacterAbilities(
       GiveAbility(AbilitySpec);
     }
   }
+  bStartupAbilitiesGiven = true;
+  AbilitiesGivenDelegate.Broadcast(this);
 
 }
 

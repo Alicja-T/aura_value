@@ -7,6 +7,7 @@
 #include "OverlayWidgetController.generated.h"
 
 class UValueUserWidget;
+class UValueAbilitySystemComponent;
 class UAbilityInfo;
 
 USTRUCT(BlueprintType)
@@ -64,6 +65,8 @@ class AURA_API UOverlayWidgetController : public UValueWidgetController
   TObjectPtr<UAbilityInfo> AbilityInfo;
   template <typename T>
   T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
+
+  void OnInitializeStartupAbilities(UValueAbilitySystemComponent* ValueASC);
 };
 
 template <typename T>
