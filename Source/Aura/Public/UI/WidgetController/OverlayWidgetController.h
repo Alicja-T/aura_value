@@ -7,6 +7,7 @@
 #include "OverlayWidgetController.generated.h"
 
 class UValueUserWidget;
+class UAbilityInfo;
 
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase {
@@ -59,6 +60,8 @@ class AURA_API UOverlayWidgetController : public UValueWidgetController
   void BindCallbacksToAttributeSet(
       const FGameplayAttribute& Attribute,
       FOnAttributeChangedSignature* AttributeChangeDelegate);
+  UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")
+  TObjectPtr<UAbilityInfo> AbilityInfo;
   template <typename T>
   T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 };
