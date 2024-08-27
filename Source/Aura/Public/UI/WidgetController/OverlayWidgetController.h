@@ -9,6 +9,7 @@
 class UValueUserWidget;
 class UValueAbilitySystemComponent;
 class UAbilityInfo;
+struct FValueAblityInfo;
 
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase {
@@ -30,6 +31,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float,
                                     NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature,
                                             FUIWidgetRow, Row);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature,
+                                            const FValueAbilityInfo&, Info);
 
 
  /**
@@ -54,6 +57,8 @@ class AURA_API UOverlayWidgetController : public UValueWidgetController
   FOnAttributeChangedSignature OnMaxManaChanged;
   UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
   FMessageWidgetRowSignature MessageWidgetRowDelegate;
+  UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
+  FAbilityInfoSignature AbilityInfoDelegate;
 
  protected:
   UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")

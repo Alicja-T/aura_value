@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/ValueAbilitySystemComponent.h"
 #include "ValueGameplayTags.h"
+#include "Aura/ValueLogChannels.h"
 #include "AbilitySystem/Abilities/ValueGameplayAbility.h"
 
 void UValueAbilitySystemComponent::AbilityActorInfoSet() {
@@ -50,6 +51,42 @@ void UValueAbilitySystemComponent::AbilityInputTagReleased(
       AbilitySpecInputReleased(AbilitySpec);
     }
   }
+}
+
+FForEachAbility UValueAbilitySystemComponent::ForEachAbility(
+    const FForEachAbility& Delegate) {
+  FScopedAbilityListLock ActiveScopeLock(*this);
+  for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities()) {
+    if (!Delegate.ExecuteIfBound(AbilitySpec)) {
+      UE_LOG(LogValue, Error, TEXT("Failed to execute delegate in %hs"),
+             __FUNCTION__);
+    }
+  }
+
+  return FForEachAbility();
+}
+
+FGameplayTag UValueAbilitySystemComponent::GetAbilityTagFromSpec(
+    const FGameplayAbilitySpec& AbilitySpec) {
+  if (AbilitySpec.Ability) {
+    for (FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags) {
+      if (Tag.MatchesTag(
+              FGameplayTag::RequestGameplayTag(FName("Abilities")))) {
+        return Tag;
+      }
+    }
+  }
+  return FGameplayTag();
+}
+
+FGameplayTag UValueAbilitySystemComponent::GetInputTagFromSpec(
+    const FGameplayAbilitySpec& AbilitySpec) {
+  for (FGameplayTag Tag : AbilitySpec.DynamicAbilityTags) {
+    if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("InputTag")))) {
+      return Tag;
+    }
+  }
+  return FGameplayTag();
 }
 
 void UValueAbilitySystemComponent::ClientEffectApplied_Implementation(

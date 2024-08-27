@@ -10,7 +10,9 @@
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags,
                                     const FGameplayTagContainer& /*AssetTags*/);
 DECLARE_MULTICAST_DELEGATE_OneParam(FAbilitiesGiven,
-                                    UValueAbilitySystemComponent* ValueASC);
+                                    UValueAbilitySystemComponent*);
+DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
+
 /**
  * 
  */
@@ -26,6 +28,11 @@ class AURA_API UValueAbilitySystemComponent : public UAbilitySystemComponent
   void AbilityInputTagReleased(const FGameplayTag& InputTag);
   FAbilitiesGiven AbilitiesGivenDelegate;
   bool bStartupAbilitiesGiven = false;
+  FForEachAbility ForEachAbility(const FForEachAbility& Delegate);
+  static FGameplayTag GetAbilityTagFromSpec(
+      const FGameplayAbilitySpec& AbilitySpec);
+  static FGameplayTag GetInputTagFromSpec(
+      const FGameplayAbilitySpec& AbilitySpec);
  protected:
 	UFUNCTION(Client, Reliable)
 	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);

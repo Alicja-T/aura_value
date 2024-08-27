@@ -4,6 +4,7 @@
 
 #include "AbilitySystem/ValueAbilitySystemComponent.h"
 #include "AbilitySystem/ValueAttributeSet.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 
 void UOverlayWidgetController::BroadcastInitialValues() {
   UValueAttributeSet* ValueAttributeSet =
@@ -66,5 +67,15 @@ void UOverlayWidgetController::BindCallbacksToDependencies() {
 void UOverlayWidgetController::OnInitializeStartupAbilities(
     UValueAbilitySystemComponent* ValueASC) {
   if (!ValueASC->bStartupAbilitiesGiven) return;
-
+  FForEachAbility BroadcastDelegate;
+  BroadcastDelegate.BindLambda([ this, ValueASC ](
+                                   const FGameplayAbilitySpec& AbilitySpec) {
+    // TODO need a way to figure out the ability tag for a given ability spec.
+    FValueAbilityInfo Info = AbilityInfo->FindAbilityInfoByTag(
+        ValueASC->GetAbilityTagFromSpec(AbilitySpec));
+    Info.InputTag =
+        ValueASC->GetInputTagFromSpec(AbilitySpec);
+    AbilityInfoDelegate.Broadcast(Info);
+  });
+  ValueASC->ForEachAbility(BroadcastDelegate);
 }
