@@ -89,6 +89,15 @@ FGameplayTag UValueAbilitySystemComponent::GetInputTagFromSpec(
   return FGameplayTag();
 }
 
+void UValueAbilitySystemComponent::OnRep_ActivateAbilities() {
+  Super::OnRep_ActivateAbilities();
+  // on client this variable is false the first time (it's not replicated)
+  if (!bStartupAbilitiesGiven) {
+    bStartupAbilitiesGiven = true;
+    AbilitiesGivenDelegate.Broadcast(this);
+  }
+}
+
 void UValueAbilitySystemComponent::ClientEffectApplied_Implementation(
     UAbilitySystemComponent* AbilitySystemComponent,
     const FGameplayEffectSpec& EffectSpec,
