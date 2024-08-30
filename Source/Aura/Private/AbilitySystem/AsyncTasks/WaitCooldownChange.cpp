@@ -11,7 +11,7 @@ UWaitCooldownChange* UWaitCooldownChange::WaitForCooldownChange(
   WaitCooldownChange->ASC = AbilitySystemComponent;
   WaitCooldownChange->CooldownTag = InCooldownTag;
 
-  if (!IsValid(AbilitySystemComponent) || InCooldownTag.IsValid()) {
+  if (!IsValid(AbilitySystemComponent) || !InCooldownTag.IsValid()) {
     WaitCooldownChange->EndTask();
     return nullptr;
   }
