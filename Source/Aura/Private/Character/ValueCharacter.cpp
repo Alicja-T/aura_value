@@ -18,6 +18,8 @@ AValueCharacter::AValueCharacter() {
   bUseControllerRotationPitch = false;
   bUseControllerRotationRoll = false;
   bUseControllerRotationYaw = false;
+
+  CharacterClass = ECharacterClass::Elementalist;
 }
 
 void AValueCharacter::PossessedBy(AController* ValueController) {

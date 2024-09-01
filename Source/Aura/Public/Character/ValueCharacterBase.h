@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "ValueCharacterBase.generated.h"
 
 class UAbilitySystemComponent;
@@ -40,6 +41,7 @@ class AURA_API AValueCharacterBase : public ACharacter,
       const FGameplayTag& MontageTag) override;
   virtual int32 GetMinionCount_Implementation() override;
   virtual void IncrementMinionCount_Implementation(int32 Amount) override;
+  virtual ECharacterClass GetCharacterClass_Implementation() const override;
   /* End CombatInterface*/
 
   UPROPERTY(EditAnywhere, Category = "Combat")
@@ -107,6 +109,10 @@ class AURA_API AValueCharacterBase : public ACharacter,
 
   /* Minions */
   int32 MinionCount = 0;
+
+  UPROPERTY(EditAnywhere, BlueprintReadOnly,
+            Category = "Character Class Defaults")
+  ECharacterClass CharacterClass = ECharacterClass::Warrior;
  
 private:
   UPROPERTY(EditAnywhere, Category = "Abilities")

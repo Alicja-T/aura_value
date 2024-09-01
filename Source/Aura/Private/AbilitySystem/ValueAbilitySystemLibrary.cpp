@@ -185,3 +185,14 @@ bool UValueAbilitySystemLibrary::IsNotFriend(AActor* FirstActor,
   const bool bFriends = bBothArePlayers || bBothAreEnemies;
   return !bFriends;
 }
+
+int32 UValueAbilitySystemLibrary::GetXPForClassAndLevel(
+    const UObject* WorldContextObject,
+    const ECharacterClass& CharacterClass, const int32 Level) {
+  UCharacterClassInfo* ClassInfo =
+      GetCharacterClassInfo(WorldContextObject);
+  if (ClassInfo == nullptr) return 0;
+  FScalableFloat LevelXP =
+      ClassInfo->GetClassDefaultInfo(CharacterClass).XPReward;
+  return static_cast<int32>(LevelXP.GetValueAtLevel(Level));
+}

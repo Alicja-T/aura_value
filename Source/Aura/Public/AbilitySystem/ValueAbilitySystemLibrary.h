@@ -76,4 +76,9 @@ class AURA_API UValueAbilitySystemLibrary : public UBlueprintFunctionLibrary {
   UFUNCTION(BlueprintPure,
             Category = "ValueAbilitySystemLibrary|GameMechanics")
   static bool IsNotFriend(AActor* FirstActor, AActor* SecondActor);
+
+  UFUNCTION()
+  static int32 GetXPForClassAndLevel(const UObject* WorldContextObject,
+                                     const ECharacterClass& CharacterClass,
+                                     const int32 Level);
 };

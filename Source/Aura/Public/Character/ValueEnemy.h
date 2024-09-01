@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Character/ValueCharacterBase.h"
 #include "Interaction/EnemyInterface.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
@@ -59,10 +58,6 @@ class AURA_API AValueEnemy : public AValueCharacterBase, public IEnemyInterface
 
   UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Interface")
   int32 Level = 1;
-
-  UPROPERTY(EditAnywhere, BlueprintReadOnly,
-            Category = "Character Class Defaults")
-  ECharacterClass CharacterClass = ECharacterClass::Warrior;
 
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
   TObjectPtr<UWidgetComponent> HealthBar;

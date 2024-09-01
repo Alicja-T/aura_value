@@ -59,6 +59,10 @@ void AValueCharacterBase::IncrementMinionCount_Implementation(int32 Amount) {
   MinionCount += Amount;
 }
 
+ECharacterClass AValueCharacterBase::GetCharacterClass_Implementation() const {
+  return CharacterClass;
+}
+
 void AValueCharacterBase::MulticastHandleDeath_Implementation() {
   UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(),
                                         GetActorRotation());
