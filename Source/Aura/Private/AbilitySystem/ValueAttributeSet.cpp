@@ -210,6 +210,12 @@ void UValueAttributeSet::PostGameplayEffectExecute(
       ShowFloatingText(Props, LocalIncomingDamage, bBlock, bCriticalHit);
     }
   }
+
+  if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute()){
+    const float LocalIncomingXP = GetIncomingXP();
+    UE_LOG(LogTemp, Warning, TEXT("Got incoming XP: %f"), LocalIncomingXP)
+  } 
+
 }
   
 
