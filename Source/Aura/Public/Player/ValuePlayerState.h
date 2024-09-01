@@ -10,8 +10,9 @@
 
 class UAbilitySystemComponent;
 class UAttributeSet;
+class ULevelUpInfo;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32 /*StatValue*/)
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32)
 
 /**
  * 
@@ -26,6 +27,8 @@ class AURA_API AValuePlayerState : public APlayerState, public IAbilitySystemInt
    virtual void GetLifetimeReplicatedProps(
        TArray<FLifetimeProperty>& OutLifetimeProps) const override;
   UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+  UPROPERTY(EditDefaultsOnly)
+  TObjectPtr<ULevelUpInfo> LevelUpInfo;
   FOnPlayerStatChanged OnXPChangedDelegate;
   FOnPlayerStatChanged OnLevelChangedDelegate;
 
