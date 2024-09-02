@@ -2,13 +2,10 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "AttributeSet.h"
 #include "AbilitySystemComponent.h"
+#include "AttributeSet.h"
+#include "CoreMinimal.h"
 #include "ValueAttributeSet.generated.h"
-
-
-
 
 
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName)         \
@@ -20,6 +17,7 @@
 USTRUCT()
 struct FEffectProperties {
   GENERATED_BODY()
+
   FEffectProperties() {}
   FGameplayEffectContextHandle EffectContextHandle;
   UPROPERTY()
@@ -40,20 +38,21 @@ struct FEffectProperties {
   ACharacter* TargetCharacter = nullptr;
 };
 
-template<class T>
-using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+template <class T>
+using TStaticFuncPtr =
+    typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
 /**
- * 
+ *
  */
 UCLASS()
-class AURA_API UValueAttributeSet : public UAttributeSet
-{
-	GENERATED_BODY()
+class AURA_API UValueAttributeSet : public UAttributeSet {
 
-public:
+  GENERATED_BODY()
+
+ public:
   UValueAttributeSet();
   virtual void GetLifetimeReplicatedProps(
-     TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+      TArray<FLifetimeProperty>& OutLifetimeProps) const override;
   virtual void PreAttributeChange(const FGameplayAttribute& Attribute,
                                   float& NewValue);
   virtual void PostGameplayEffectExecute(
@@ -89,7 +88,8 @@ public:
    * Vital Attributes
    */
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
+  UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health,
+            Category = "Vital Attributes")
   FGameplayAttributeData Health;
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, Health);
 
@@ -97,7 +97,6 @@ public:
             Category = "Vital Attributes")
   FGameplayAttributeData Mana;
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, Mana);
- 
 
   /*
     Secondary Attributes
@@ -106,22 +105,22 @@ public:
   UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor,
             Category = "Secondary Attributes")
   FGameplayAttributeData Armor;
-  
+
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, ArmorPenetration);
   UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArmorPenetration,
             Category = "Secondary Attributes")
   FGameplayAttributeData ArmorPenetration;
-  
+
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, BlockChance);
   UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_BlockChance,
             Category = "Secondary Attributes")
   FGameplayAttributeData BlockChance;
-  
+
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, CriticalHitChance);
   UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalHitChance,
             Category = "Secondary Attributes")
   FGameplayAttributeData CriticalHitChance;
-  
+
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, CriticalHitDamage);
   UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalHitDamage,
             Category = "Secondary Attributes")
@@ -141,7 +140,7 @@ public:
   UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ManaRegeneration,
             Category = "Secondary Attributes")
   FGameplayAttributeData ManaRegeneration;
-  
+
   UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth,
             Category = "Vital Attributes")
   FGameplayAttributeData MaxHealth;
@@ -152,10 +151,9 @@ public:
   FGameplayAttributeData MaxMana;
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, MaxMana);
 
-
- /*
- * Resistance Attributes
- */
+  /*
+   * Resistance Attributes
+   */
 
   UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistance,
             Category = "Resistance Attributes")
@@ -178,8 +176,8 @@ public:
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, PhysicalResistance);
 
   /*
-  * Meta Attributes
-  */
+   * Meta Attributes
+   */
   UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
   FGameplayAttributeData IncomingDamage;
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, IncomingDamage);
@@ -187,8 +185,6 @@ public:
   UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
   FGameplayAttributeData IncomingXP;
   ATTRIBUTE_ACCESSORS(UValueAttributeSet, IncomingXP);
-
-
 
   UFUNCTION()
   void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
@@ -231,30 +227,36 @@ public:
   void OnRep_Armor(const FGameplayAttributeData& OldArmor) const;
 
   UFUNCTION()
-  void OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const;
+  void OnRep_ArmorPenetration(
+      const FGameplayAttributeData& OldArmorPenetration) const;
 
   UFUNCTION()
   void OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const;
 
   UFUNCTION()
-  void OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance) const;
+  void OnRep_CriticalHitChance(
+      const FGameplayAttributeData& OldCriticalHitChance) const;
 
-   UFUNCTION()
-  void OnRep_CriticalHitDamage(const FGameplayAttributeData& OldCriticalHitDamage) const;
+  UFUNCTION()
+  void OnRep_CriticalHitDamage(
+      const FGameplayAttributeData& OldCriticalHitDamage) const;
 
-   UFUNCTION()
-  void OnRep_CriticalHitResistance(const FGameplayAttributeData& OldCriticalHitResistance) const;
+  UFUNCTION()
+  void OnRep_CriticalHitResistance(
+      const FGameplayAttributeData& OldCriticalHitResistance) const;
 
-   UFUNCTION()
-  void OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration) const;
+  UFUNCTION()
+  void OnRep_HealthRegeneration(
+      const FGameplayAttributeData& OldHealthRegeneration) const;
 
-   UFUNCTION()
+  UFUNCTION()
   void OnRep_ManaRegeneration(const FGameplayAttributeData& OldArmor) const;
 
+ private:
+  void SetEffectProperties(const FGameplayEffectModCallbackData& Data,
+                           FEffectProperties& Props) const;
+  void ShowFloatingText(const FEffectProperties& Props, float Damage,
+                        bool bBlockedHit, bool bCriticalHit) const;
 
-private:
-  void SetEffectProperties(const FGameplayEffectModCallbackData&
-                               Data, FEffectProperties& Props) const;
- void ShowFloatingText(const FEffectProperties& Props, float Damage,
-                       bool bBlockedHit, bool bCriticalHit) const;
+  void SendXPEvent(const FEffectProperties& Props);
 };

@@ -201,5 +201,5 @@ void UExecCalcDamage::Execute_Implementation(
   const FGameplayModifierEvaluatedData EvaluatedData(UValueAttributeSet::GetIncomingDamageAttribute(),
       EGameplayModOp::Additive, Damage);
   OutExecutionOutput.AddOutputModifier(EvaluatedData);
-  UE_LOG(LogTemp, Warning, TEXT("Final damage value is: %f"), Damage);
+  //UE_LOG(LogTemp, Warning, TEXT("Final damage value is: %f"), Damage);
 }

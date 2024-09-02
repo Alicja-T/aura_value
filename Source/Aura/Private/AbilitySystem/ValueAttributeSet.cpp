@@ -160,6 +160,23 @@ void UValueAttributeSet::ShowFloatingText(const FEffectProperties& Props,
   }
 }
 
+void UValueAttributeSet::SendXPEvent(const FEffectProperties& Props) {
+  if (ICombatInterface* CombatInterface =
+          Cast<ICombatInterface>(Props.TargetCharacter)) {
+    const int32 Level = CombatInterface->GetPlayerLevel();
+    const ECharacterClass CharacterClass = ICombatInterface::Execute_GetCharacterClass(Props.TargetCharacter);
+    const int32 XPReward = UValueAbilitySystemLibrary::GetXPForClassAndLevel(Props.TargetCharacter,
+        CharacterClass, Level);
+    const FValueGameplayTags& GameplayTags = FValueGameplayTags::Get();
+    FGameplayEventData Payload;
+    Payload.EventTag = GameplayTags.Attributes_Meta_IncomingXP;
+    Payload.EventMagnitude = XPReward;
+    UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+        Props.SourceCharacter, GameplayTags.Attributes_Meta_IncomingXP,
+        Payload);
+  }
+}
+
 void UValueAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute,
                                             float& NewValue) {
   Super::PreAttributeChange(Attribute, NewValue);
@@ -178,8 +195,6 @@ void UValueAttributeSet::PostGameplayEffectExecute(
   SetEffectProperties(Data, Props);
   if (Data.EvaluatedData.Attribute == GetHealthAttribute()) {
     SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
-    UE_LOG(LogTemp, Warning, TEXT("Changed Health on %s, Health: %f"),
-           *Props.TargetAvatarActor->GetName(), GetHealth());
   }
   if (Data.EvaluatedData.Attribute == GetManaAttribute()) {
     SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
@@ -197,6 +212,7 @@ void UValueAttributeSet::PostGameplayEffectExecute(
         if (CombatInterface) {
           CombatInterface->Die();
         }
+        SendXPEvent(Props);
       } 
       else {
         FGameplayTagContainer TagContainer;
@@ -213,7 +229,8 @@ void UValueAttributeSet::PostGameplayEffectExecute(
 
   if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute()){
     const float LocalIncomingXP = GetIncomingXP();
-    UE_LOG(LogTemp, Warning, TEXT("Got incoming XP: %f"), LocalIncomingXP)
+    SetIncomingXP(0.f);
+    UE_LOG(LogTemp, Warning, TEXT("Got incoming XP: %f"), LocalIncomingXP);
   } 
 
 }
