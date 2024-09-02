@@ -141,6 +141,7 @@ void AValueCharacterBase::AddCharacterAbilities() {
   UValueAbilitySystemComponent* ASC =
       CastChecked<UValueAbilitySystemComponent>(AbilitySystemComponent);
   ASC->AddCharacterAbilities(StartupAbilities);
+  ASC->AddCharacterPassiveAbilities(StartupPassiveAbilities);
 }
 
 void AValueCharacterBase::Dissolve() { 

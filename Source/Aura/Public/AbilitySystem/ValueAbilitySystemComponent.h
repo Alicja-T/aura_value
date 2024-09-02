@@ -24,6 +24,8 @@ class AURA_API UValueAbilitySystemComponent : public UAbilitySystemComponent
   void AbilityActorInfoSet();
   FEffectAssetTags EffectAssetTags;
   void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
+  void AddCharacterPassiveAbilities(
+      const TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities);
   void AbilityInputTagHeld(const FGameplayTag& InputTag);
   void AbilityInputTagReleased(const FGameplayTag& InputTag);
   FAbilitiesGiven AbilitiesGivenDelegate;
