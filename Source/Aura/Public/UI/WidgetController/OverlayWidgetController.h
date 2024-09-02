@@ -33,8 +33,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature,
                                             FUIWidgetRow, Row);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature,
                                             const FValueAbilityInfo&, Info);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnStatChangedSignature, int32,
-                                            NewValue);
 
  /**
  * 
@@ -60,12 +58,9 @@ class AURA_API UOverlayWidgetController : public UValueWidgetController
   FMessageWidgetRowSignature MessageWidgetRowDelegate;
   UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
   FAbilityInfoSignature AbilityInfoDelegate;
-
-  UPROPERTY(BlueprintAssignable, Category = "GAS|Level")
-  FOnStatChangedSignature OnLevelChanged;
   
   UPROPERTY(BlueprintAssignable, Category = "GAS|Level")
-  FOnStatChangedSignature OnXPPercentChanged;
+  FOnAttributeChangedSignature OnXPPercentChanged;
 
  protected:
   UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")

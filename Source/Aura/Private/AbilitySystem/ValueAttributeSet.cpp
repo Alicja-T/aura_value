@@ -11,6 +11,7 @@
 #include "Player/ValueController.h"
 #include <Net/UnrealNetwork.h>
 #include "ValueGameplayTags.h"
+#include <Interaction/PlayerInterface.h>
 
 UValueAttributeSet::UValueAttributeSet() {
   const FValueGameplayTags& GameplayTags = FValueGameplayTags::Get();
@@ -170,7 +171,7 @@ void UValueAttributeSet::SendXPEvent(const FEffectProperties& Props) {
     const FValueGameplayTags& GameplayTags = FValueGameplayTags::Get();
     FGameplayEventData Payload;
     Payload.EventTag = GameplayTags.Attributes_Meta_IncomingXP;
-    Payload.EventMagnitude = XPReward;
+    Payload.EventMagnitude = static_cast<float>(XPReward);
     UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
         Props.SourceCharacter, GameplayTags.Attributes_Meta_IncomingXP,
         Payload);
@@ -231,6 +232,10 @@ void UValueAttributeSet::PostGameplayEffectExecute(
     const float LocalIncomingXP = GetIncomingXP();
     SetIncomingXP(0.f);
     UE_LOG(LogTemp, Warning, TEXT("Got incoming XP: %f"), LocalIncomingXP);
+    // check for level up
+    if (Props.SourceCharacter->Implements<UPlayerInterface>()) {
+      IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalIncomingXP);
+    }
   } 
 
 }
